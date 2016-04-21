@@ -1,0 +1,23 @@
+{
+  "name": "484-snakes",
+  "version": "1.0.0",
+  "description": "Classic game snake online",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.13.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ak505188/484-snakes.git"
+  },
+  "author": "Alexandr Kolesnik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ak505188/484-snakes/issues"
+  },
+  "homepage": "https://github.com/ak505188/484-snakes#readme"
+}

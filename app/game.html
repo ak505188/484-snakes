@@ -7,14 +7,18 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = io.connect();
-      socket.on('news', function (data) {
-        console.log(data);
+      console.log(socket);
+      socket.on('status', function (data) {
+        var clients = data.client_count;
+        document.getElementById("status").innerHTML = "Clients connected: " + clients;
+        console.log(clients);
         socket.emit('my other event', { my: 'data' });
       });
     </script>
   </head>
   <body>
     <h1>484 Snakes!</h1>
-    <p>This will be our landing page</p>
+    <p>Game page!</p>
+    <div id="status"></div>
   </body>
 </html>

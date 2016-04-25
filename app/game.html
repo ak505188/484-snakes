@@ -4,6 +4,14 @@
     <meta charset=utf-8>
     <meta name="viewport" content="width=device-width">
     <title>Snake Online!</title>
+    <script type="text/javascript" src="script/inheritance.js" defer></script>
+    <script type="text/javascript" src="script/game_object.js" defer></script>
+    <script type="text/javascript" src="script/random_generator.js" defer></script>
+    <script type="text/javascript" src="script/game_grid.js" defer></script>
+    <script type="text/javascript" src="script/game_controller.js" defer></script>
+    <script type="text/javascript" src="script/snake.js" defer></script>
+    <script type="text/javascript" src="script/block.js" defer></script>
+    <script type="text/javascript" src="script/main.js" defer></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = io.connect();
@@ -20,5 +28,6 @@
     <h1>484 Snakes!</h1>
     <p>Game page!</p>
     <div id="status"></div>
+    <canvas id="game"></canvas>
   </body>
 </html>

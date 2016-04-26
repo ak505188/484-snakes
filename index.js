@@ -1,22 +1,29 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var game = require('./routes/game.js');
-var url = require('url');
 
 var isDeveloping = process.env.NODE_ENV !== 'production';
 var port = isDeveloping ? 3000 : process.env.PORT;
 var hostname = process.env.HOSTNAME || '0.0.0.0';
 global.root_dir = __dirname;
 
+app.use(express.static(__dirname + '/common'));
+
 app.get('/', function (req, res) {
-  var options = {
-    root: global.root_dir
-  };
-  res.sendFile('app/index.html', options);
+  res.sendFile('app/index.html', { root: global.root_dir });
 })
 
-app.use('/game', game);
+app.get('/game', function(req, res) {
+  res.send('Game!');
+});
+
+app.get('/game/*', function(req, res) {
+  res.sendFile('app/game.html', { root: global.root_dir });
+});
+
+// app.use('/game', game);
 
 server.listen(port, hostname, function () {
   console.log('Listening on port %s. Open http://localhost:%s in browser.', port, port);

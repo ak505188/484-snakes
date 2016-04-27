@@ -15,12 +15,9 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = io.connect();
-      console.log(socket);
       socket.on('status', function (data) {
         var clients = data.client_count;
         document.getElementById("status").innerHTML = "Clients connected: " + clients;
-        console.log(clients);
-        socket.emit('my other event', { my: 'data' });
       });
     </script>
   </head>

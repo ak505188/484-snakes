@@ -18,13 +18,25 @@ function GameObject(_rep) {
 		y = _y;
 	};
 
+	this.getNewPosition = function(_vector) {
+		return {
+			x: x + _vector.x,
+			y: y + _vector.y
+		};
+	};
+
 	this.translate = function(_vector) {
 		x += _vector.x;
 		y += _vector.y;
 	};
 
+	this.setPosition = function(_vector) {
+		x = _vector.x;
+		y = _vector.y;
+	};
+
 
 	//abstract
-	this.update = function() {};
+	this.update = function(grid, data) {};
 	this.draw = function(ctx, cellWidth, cellHeight) {};
 }

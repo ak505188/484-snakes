@@ -23,6 +23,11 @@ app.get('/game/*', function(req, res) {
   res.sendFile('app/game.html', { root: global.root_dir });
 });
 
+//define the test queue route
+app.get('/test', function(req, res) {
+  res.sendFile('app/test/test_queue.html', { root: global.root_dir });
+});
+
 // app.use('/game', game);
 
 server.listen(port, hostname, function () {

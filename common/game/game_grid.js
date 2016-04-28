@@ -6,7 +6,7 @@ function GameGrid(_data) {
 	this.update = function() {
 		for (var key in grid) {
 			var obj = grid[key];
-			obj.update();
+			obj.update(grid, data);
 		}
 	};
 

@@ -15,6 +15,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = io.connect();
+      socket.emit('join_room', {});
       socket.on('status', function (data) {
         var clients = data.client_count;
         document.getElementById("status").innerHTML = "Clients connected: " + clients;

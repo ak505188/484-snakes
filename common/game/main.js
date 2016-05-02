@@ -1,5 +1,5 @@
 (function() {
 	//begins game
-	var controller = new GameController();
-	controller.start();
+	Utils.controller = new GameController();
+	Utils.controller.start();
 })();

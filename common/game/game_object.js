@@ -1,6 +1,7 @@
-function GameObject(_rep) {
+function GameObject(_rep, _classification) {
 	var x = _rep.x;
 	var y = _rep.y;
+	var classification = _classification;
 
 	this.getX = function() {
 		return x;
@@ -35,8 +36,31 @@ function GameObject(_rep) {
 		y = _vector.y;
 	};
 
+	this.getPosition = function() {
+		return {
+			x: x,
+			y: y
+		};
+	};
+
+	this.setClassification = function(_classification) {
+		classification = _classification;
+	};
+
+	this.classify = function() {
+		return classification;
+	};
+
+	this.isHazard = function() {
+		return classification === Utils.hazard;
+	};
+
+	this.isPickup = function() {
+		return classification === Utils.pickup;
+	};
+
 
 	//abstract
-	this.update = function(grid, data) {};
+	this.update = function(gridMap, width, height) {};
 	this.draw = function(ctx, cellWidth, cellHeight) {};
 }

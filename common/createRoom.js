@@ -31,7 +31,9 @@ function handleResponse() {
 	console.log('Game already exists!');
       } else {
 	// Redirect to game.
-        window.location.replace(window.location.href + 'g/' + response.room_name);
+	// Below line will make back button skip lobby page
+        // window.location.replace(window.location.href + 'g/' + response.room_name);
+        window.location.href = (window.location.href + 'g/' + response.room_name);
       }
     } else {
       console.log('There was a problem with the request.');

@@ -52,7 +52,8 @@ io.on('connection', function (socket) {
   var client = {
     remoteAddress: socket.request.connection.remoteAddress,
     remotePort: socket.request.connection.remotePort
-  }
+  };
+  console.log(client);
 
   // Get room from URI
   var room = getUriFromSocket(socket);

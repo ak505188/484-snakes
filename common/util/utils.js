@@ -17,6 +17,10 @@ var Utils = {
     hazard: 0,
     pickup: 1,
 
+    //spawn offsets
+    wandererOffset: 5,
+    fastWandererOffset: 20,
+
 
     addVectors: function(v1, v2) {
         return {

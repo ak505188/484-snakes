@@ -1,6 +1,6 @@
 function RandomStageGenerator(baseStep) {
 	
-	var difficulty = /*parseInt(document.getElementById('difficulty').value)*/ 3;
+	var difficulty = /*parseInt(document.getElementById('difficulty').value)*/ 30;
 	var width = /*parseInt(document.getElementById('width').value)*/ 20;
 	var height = /*parseInt(document.getElementById('height').value)*/ 20;
 
@@ -21,29 +21,29 @@ function RandomStageGenerator(baseStep) {
 		data.grid = {};
 		data.width = width;
 		data.height = height;
-		data.step = baseStep - (difficulty * 20);
+		data.step = baseStep - ((difficulty * 5) + 200);
 
 		generateObjects(data.grid);
 		return data;
 	};
 
 	//private helpers
-	var constructObjectRep = function(index) {
+	function constructObjectRep(index) {
 		return {
 			x: index % width,	//integer operations
 			y: Math.floor(index / height)
 		};
-	};
+	}
 
-	var constructBlockRep = function(index) {
+	function constructBlockRep(index) {
 		return constructObjectRep(index);
-	};
+	}
 
-	var constructSnakeRep = function(index) {
+	function constructSnakeRep(index) {
 		return constructObjectRep(index);
-	};
+	}
 
-	var generateObjectRandomIndex = function(grid, type) {
+	function generateObjectRandomIndex(grid, type) {
 		var index;
 		do {	//todo: write an alg to prevent "deadends"
 			index = Math.round(Math.random() * width * height);
@@ -52,6 +52,7 @@ function RandomStageGenerator(baseStep) {
 		switch (type) {
 			case 'Snake':
 				rep = constructSnakeRep(index);
+				rep.defaultLength = 3;
 				break;
 			case 'Block':
 				rep = constructBlockRep(index);
@@ -60,20 +61,20 @@ function RandomStageGenerator(baseStep) {
 				rep = constructObjectRep(index);
 		}
 		grid[index] = new window[type](rep);
-	};
+	}
 
-	var generateAllSnakes = function(grid) {
+	function generateAllSnakes(grid) {
 		generateObjectRandomIndex(grid, 'Snake');
-	};
+	}
 
-	var generateAllBlocks = function(grid) {
+	function generateAllBlocks(grid) {
 		for (var i = 0; i < difficulty; i++) {
 			generateObjectRandomIndex(grid, 'Block');
 		}
-	};
+	}
 
-	var generateObjects = function(grid) {
+	function generateObjects(grid) {
 		generateAllBlocks(grid);
 		generateAllSnakes(grid);
-	};
+	}
 }

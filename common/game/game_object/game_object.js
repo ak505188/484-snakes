@@ -61,6 +61,6 @@ function GameObject(_rep, _classification) {
 
 
 	//abstract
-	this.update = function(gridMap, width, height) {};
+	this.update = function(gridMap, spawnMap, width, height) {};
 	this.draw = function(ctx, cellWidth, cellHeight) {};
 }

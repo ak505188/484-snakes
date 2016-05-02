@@ -66,6 +66,16 @@ function GameGrid(_width, _height, _difficulty, _baseStep) {
 		return this.getAtIndex(index);
 	};
 
+	this.getAtPosition = function(position) {
+		var index = this.positionToIndex(position.x, position.y);
+		return this.getAtIndex(index);
+	};
+
+	this.getSpawningAtPosition = function(position) {
+		var index = this.positionToIndex(position.x, position.y);
+		return spawnMap[index];
+	};
+
 	this.insertAtIndex = function(obj, index) {
 		gridMap[index] = obj;
 	};
@@ -183,6 +193,11 @@ function GameGrid(_width, _height, _difficulty, _baseStep) {
 		difficulty++;
 		var step = calculateStep();
 		this.spawnAtRandomPosition('Block');
+		if (difficulty % Utils.fastWandererOffset == 0) {
+			this.spawnAtRandomPosition('Wanderer', { tier: 1 });
+		} else if (difficulty % Utils.wandererOffset === 0) {
+			this.spawnAtRandomPosition('Wanderer', { tier: 0 });
+		}
 		Utils.controller.setStep(step);
 		Utils.controller.restart();
 	};
@@ -224,7 +239,7 @@ function GameGrid(_width, _height, _difficulty, _baseStep) {
 		for (var key in spawnMap) {
 			if (spawnMap.hasOwnProperty(key)) {
 				var obj = spawnMap[key];
-				obj.update(gridMap, width, height);
+				obj.update(gridMap, spawnMap, width, height);
 				if (!obj.isSpawning()) {
 					if (gridMap[key]) {
 						spawnMap[key] = obj;
@@ -240,7 +255,7 @@ function GameGrid(_width, _height, _difficulty, _baseStep) {
 	function updateGrid() {
 		for (var key in gridMap) {
 			if (gridMap.hasOwnProperty(key)) {
-				gridMap[key].update(gridMap, width, height, step);
+				gridMap[key].update(gridMap, spawnMap, width, height, step);
 			}
 		}
 	}

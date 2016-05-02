@@ -58,7 +58,7 @@ function Snake(_rep) {
 	};
 
 	//@Override
-	this.update = function(gridMap, width, height) {
+	this.update = function(gridMap, spawnMap, width, height) {
 		if (!dead) {
 			var newPosition = this.getNewPosition(direction);
 			var objAtPos = gridMap[newPosition.y * width + newPosition.x];

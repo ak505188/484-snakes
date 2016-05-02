@@ -11,7 +11,7 @@ function Block(_rep) {
 
 
 	//public
-	this.update = function(gridMap, width, height) {
+	this.update = function(gridMap, spawnMap, width, height) {
 		this.incSpawnTime();
 	};
 	

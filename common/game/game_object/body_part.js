@@ -21,7 +21,7 @@ function BodyPart(_rep) {
     var lifeNum = 0;
 
     //@Override
-    this.update = function(grid, width, height, step) {
+    this.update = function(gridMap, spawnMap, width, height, step) {
         if (!snake) {
             if (lifeNum >= LIFE_SPAN) {
                 lifeNum = 0;

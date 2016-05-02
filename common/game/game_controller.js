@@ -2,7 +2,7 @@ function GameController() {
 	//mess with these
 	var WIDTH_RATIO = 0.5;
 	var HEIGHT_RATIO = 0.7;
-	var BASE_STEP = 100;
+	var BASE_STEP = 200;
 
 	//init code
 	var canvas = document.getElementById('game');

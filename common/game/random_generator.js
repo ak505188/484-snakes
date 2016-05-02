@@ -1,8 +1,18 @@
-function RandomStageGenerator(baseStep) {
-	
-	var difficulty = /*parseInt(document.getElementById('difficulty').value)*/ 30;
+function RandomGridGenerator(_baseStep) {
+
+	//constants - todo: move somewhere more generic
+	var STARTING_INFO = {
+		"0": {x: 2/3, y: 1/3, direction: Utils.keyRight},
+		"1": {x: 2/3, y: 2/3, direction: Utils.keyDown},
+		"2": {x: 1/3, y: 2/3, direction: Utils.keyLeft},
+		"3": {x: 1/3, y: 1/3, direction: Utils.keyUp}
+	};
+
+	var difficulty = /*parseInt(document.getElementById('difficulty').value)*/ 0;
 	var width = /*parseInt(document.getElementById('width').value)*/ 20;
 	var height = /*parseInt(document.getElementById('height').value)*/ 20;
+
+	Utils.grid = new GameGrid(width, height, difficulty, _baseStep);
 
 	/**
 		Use the difficulty number to determine how many blocks are in the room.
@@ -16,65 +26,30 @@ function RandomStageGenerator(baseStep) {
 	*/
 
 	//public
-	this.generateRandomData = function() {
-		var data = {};
-		data.grid = {};
-		data.width = width;
-		data.height = height;
-		data.step = baseStep - ((difficulty * 5) + 200);
-
-		generateObjects(data.grid);
-		return data;
+	this.populateGrid = function() {
+		generateAllBlocks();
+		generateAllSnakes();
+		//todo: more here for other objects...
 	};
 
 	//private helpers
-	function constructObjectRep(index) {
-		return {
-			x: index % width,	//integer operations
-			y: Math.floor(index / height)
+	//todo: move this method somewhere more generic - this happens for both random and upload modes
+	function generateAllSnakes() {
+		var player = 0;	//todo: allow this to handle up to 4 players
+		var startingInfo = STARTING_INFO[player];
+		var paramsMap = {
+			x: Math.floor(startingInfo.x * width),
+			y: Math.floor(startingInfo.y * height),
+			direction: startingInfo.direction,
+			defaultLength: 1,
+			playerNum: 0
 		};
+		Utils.grid.createSnake(paramsMap);
 	}
 
-	function constructBlockRep(index) {
-		return constructObjectRep(index);
-	}
-
-	function constructSnakeRep(index) {
-		return constructObjectRep(index);
-	}
-
-	function generateObjectRandomIndex(grid, type) {
-		var index;
-		do {	//todo: write an alg to prevent "deadends"
-			index = Math.round(Math.random() * width * height);
-		} while (grid[index]);
-		var rep;
-		switch (type) {
-			case 'Snake':
-				rep = constructSnakeRep(index);
-				rep.defaultLength = 3;
-				break;
-			case 'Block':
-				rep = constructBlockRep(index);
-				break;
-			default:
-				rep = constructObjectRep(index);
-		}
-		grid[index] = new window[type](rep);
-	}
-
-	function generateAllSnakes(grid) {
-		generateObjectRandomIndex(grid, 'Snake');
-	}
-
-	function generateAllBlocks(grid) {
+	function generateAllBlocks() {
 		for (var i = 0; i < difficulty; i++) {
-			generateObjectRandomIndex(grid, 'Block');
+			Utils.grid.spawnAtRandomPosition('Block');
 		}
-	}
-
-	function generateObjects(grid) {
-		generateAllBlocks(grid);
-		generateAllSnakes(grid);
 	}
 }

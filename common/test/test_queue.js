@@ -6,7 +6,6 @@
     console.log(q.getHead());
     console.log(q.getTail());
 
-    debugger;
     var done = q.dequeue();
     console.log(done);
 })();

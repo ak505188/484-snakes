@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 app.get('/', function (req, res) {
   res.sendFile('app/lobby.html', { root: global.root_dir });
-})
+});
 
 // TODO: This route will handle creating a game
 app.post('/g', function(req, res) {
@@ -41,12 +41,9 @@ app.get('/g/*', function(req, res) {
 
 server.listen(port, hostname, function () {
   console.log('Listening on port %s. Open http://localhost:%s in browser.', port, port);
-})
+});
 
 io.on('connection', function (socket) {
-  // Update lobby page with total number of people connected
-  io.emit('new connection', { total_client_count: io.engine.clientsCount });
-
   // IP & port of client
   // Really useful for keeping track of connected users
   var client = {
@@ -78,6 +75,31 @@ io.on('connection', function (socket) {
   socket.on('room_disconnect', function(data) {
     console.log(data.room, 'disconnected.');
     io.to(data.room).emit('status', { client_count: io.sockets.adapter.rooms[data.room].length });
+  });
+
+  // Count players in all rooms
+  var currentGames = [];
+  Object.keys(rooms).forEach(function(room) {
+    if(io.sockets.adapter.rooms[room]) {
+      currentGames.push({
+	room: room,
+	playerCount: io.sockets.adapter.rooms[room].length
+      });
+    } else {
+      console.log(room, 'doesnt exitst');
+    }
+  });
+
+  // Sort currentGames by playercount
+  currentGames.sort(function(a, b) {
+    return b.playerCount - a.playerCount;
+  });
+  console.log(currentGames);
+
+  // Update lobby page with total number of people connected
+  io.emit('new connection', {
+    total_client_count: io.engine.clientsCount ,
+    currentGames: currentGames
   });
 });
 

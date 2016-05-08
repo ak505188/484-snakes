@@ -9,6 +9,7 @@
       var socket = io.connect();
       socket.on('new connection', function (data) {
         var clients = data.total_client_count;
+        console.log(data.currentGames);
         document.getElementById("status").innerHTML = "Total clients connected: " + clients;
       });
     </script>

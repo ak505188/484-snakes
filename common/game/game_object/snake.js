@@ -1,7 +1,7 @@
 inherits(GameObject, Snake);
 
 function Snake(_rep) {
-	GameObject.call(this, _rep, Utils.hazard);
+	GameObject.call(this, _rep, 'Snake', Utils.hazard);
 
 	/** a snake based off a collection of body parts - x and y position represent the position of the head */
 	/** the snake is not stored in the grid's map; instead is in a separate list that updates first. it's body parts are in the grid map. */

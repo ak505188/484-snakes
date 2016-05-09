@@ -22,19 +22,25 @@ function GameGrid(_width, _height, _difficulty, _baseStep) {
 		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 		drawBackground(ctx, canvasWidth, canvasHeight);
 
-		var cellWidth = canvasWidth / width;
-		var cellHeight = canvasHeight / height;
+		var dim = this.getCellDimensions(canvasWidth, canvasHeight);
 		var key;
 		for (key in spawnMap) {
 			if (spawnMap.hasOwnProperty(key)) {
-				spawnMap[key].draw(ctx, cellWidth, cellHeight);
+				spawnMap[key].draw(ctx, dim.width, dim.height);
 			}
 		}
 		for (key in gridMap) {
 			if (gridMap.hasOwnProperty(key)) {
-				gridMap[key].draw(ctx, cellWidth, cellHeight);
+				gridMap[key].draw(ctx, dim.width, dim.height);
 			}
 		}
+	};
+
+	this.getCellDimensions = function(canvasWidth, canvasHeight) {
+		return {
+			width: canvasWidth / width,
+			height: canvasHeight / height
+		};
 	};
 
 	this.populateData = function(_data) {
@@ -90,10 +96,15 @@ function GameGrid(_width, _height, _difficulty, _baseStep) {
 		gridMap[index] = obj;
 	};
 
-	this.removeAt = function(index) {
+	this.removeAtIndex = function(index) {
 		var obj = gridMap[index];
 		delete gridMap[index];
 		return obj;
+	};
+
+	this.removeAt = function(x, y) {
+		var index = this.positionToIndex(x, y);
+		this.removeAtIndex(index);
 	};
 
 	this.remove = function(obj) {

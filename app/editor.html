@@ -3,9 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Editor</title>
+    <!-- dont commit the change in directories -->
+    <script type="text/javascript" src="/util/utils.js" defer></script>
+    <script type="text/javascript" src="/game/inheritance.js" defer></script>
+    <script type="text/javascript" src="/game/game_grid.js" defer></script>
+    <script type="text/javascript" src="/game/game_controller.js" defer></script>
+    <script type="text/javascript" src="/game/game_object/game_object.js" defer></script>
+    <script type="text/javascript" src="/game/game_object/body_part.js" defer></script>
+    <script type="text/javascript" src="/game/game_object/snake.js" defer></script>
+    <script type="text/javascript" src="/game/game_object/spawned/spawned_object.js" defer></script>
+    <script type="text/javascript" src="/game/game_object/spawned/block.js" defer></script>
+    <script type="text/javascript" src="/game/game_object/spawned/wanderer.js" defer></script>
+    <script type="text/javascript" src="/editor/selection_canvas.js" defer></script>
+    <script type="text/javascript" src="/editor/editor_canvas.js" defer></script>
+    <script type="text/javascript" src="/editor/current_canvas.js" defer></script>
+    <script type="text/javascript" src="/editor/main.js" defer></script>
 </head>
 <body>
-    <canvas id="selectionCanvas" width="100" height="20"></canvas>
-    <canvas id="editorCanvas"></canvas>
+    <div>
+        <canvas id="selection"></canvas>
+    </div>
+    <div>
+        <canvas id="editor"></canvas>
+    </div>
+    <div>
+        <canvas id="current"></canvas>
+    </div>
 </body>
 </html>

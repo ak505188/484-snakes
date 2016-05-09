@@ -5,7 +5,7 @@ var Utils = {
     //global constants
     grid: null,
     controller: null,
-    spawnTime: 20,
+    spawnTime: 0,
 
     //keyboard codes
     keyLeft: 37,
@@ -34,5 +34,30 @@ var Utils = {
             x: v1.x - v2.x,
             y: v1.y - v2.y
         }
+    },
+
+    //clones all properties other than position
+    clone: function(obj) {
+        var newRep = {
+            x: 0,
+            y: 0
+        };
+        if (obj.classify) {
+            newRep.classification = obj.classify();
+        }
+        if (obj.getTier) {
+            newRep.tier = obj.getTier();
+        }
+        var type = obj.getType();
+        return new window[type](newRep);
+    },
+
+    fireEvent: function(name, detail) {
+        var event = new CustomEvent(name, {
+            detail: detail,
+            bubbles: true,
+            cancelable: true
+        });
+        document.dispatchEvent(event);
     }
 };

@@ -1,7 +1,7 @@
 inherits(SpawnedObject, Wanderer);
 
-function Wanderer(_rep) {
-    SpawnedObject.call(this, _rep, Utils.hazard, Utils.spawnTime);
+function Wanderer(_rep, _spawnTime) {
+    SpawnedObject.call(this, _rep, 'Wanderer', Utils.hazard, _spawnTime || Utils.spawnTime);
 
     //constants
     var BASE_DELAY = 10;
@@ -57,6 +57,10 @@ function Wanderer(_rep) {
             ctx.fillRect(this.getX() * cellWidth, this.getY() * cellHeight, cellWidth, cellHeight);	//todo: move this to generate location... always seems to be the same code...
         }
         flashProg++;
+    };
+
+    this.getTier = function() {
+        return tier;
     };
 
 

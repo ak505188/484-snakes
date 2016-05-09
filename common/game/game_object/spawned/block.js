@@ -1,7 +1,7 @@
 inherits(SpawnedObject, Block);
 
-function Block(_rep) {
-	SpawnedObject.call(this, _rep, Utils.hazard, Utils.spawnTime);
+function Block(_rep, _spawnTime) {
+	SpawnedObject.call(this, _rep, 'Block', Utils.hazard, _spawnTime || Utils.spawnTime);
 
 	//constants
 	var FLASH_LIMIT = 4;

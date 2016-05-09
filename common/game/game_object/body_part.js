@@ -1,7 +1,7 @@
 inherits(GameObject, BodyPart);
 
 function BodyPart(_rep) {
-    GameObject.call(this, _rep, _rep.classification);
+    GameObject.call(this, _rep, 'BodyPart', _rep.classification);
 
     //constant
     var COLOR_STEP = 6;

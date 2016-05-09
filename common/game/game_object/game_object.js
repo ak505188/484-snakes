@@ -1,6 +1,7 @@
-function GameObject(_rep, _classification) {
+function GameObject(_rep, _type, _classification) {
 	var x = _rep.x;
 	var y = _rep.y;
+	var type = _type;
 	var classification = _classification;
 
 	this.getX = function() {
@@ -57,6 +58,18 @@ function GameObject(_rep, _classification) {
 
 	this.isPickup = function() {
 		return classification === Utils.pickup;
+	};
+
+	this.getConfig = function() {
+		return {
+			x: x,
+			y: y,
+			classification: classification
+		};
+	};
+
+	this.getType = function() {
+		return type;
 	};
 
 

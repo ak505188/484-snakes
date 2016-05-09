@@ -20,6 +20,7 @@ function GameController() {
 			grid.populateData(jsonData);	//todo: maybe use a grid populator???
 		}
 		step = Utils.grid.getStep();
+		Utils.spawnTime = 10;
 		window.onresize = handleResize;
 		handleResize();
 	})();

@@ -11,7 +11,6 @@ var hostname = process.env.HOSTNAME || '0.0.0.0';
 global.root_dir = __dirname;
 
 var rooms = {};
-var players = {};
 
 // Let our html files use files from /common
 app.use(express.static(__dirname + '/common'));
@@ -50,10 +49,7 @@ io.on('connection', function (socket) {
     remoteAddress: socket.request.connection.remoteAddress,
     remotePort: socket.request.connection.remotePort
   };
-  console.log(client);
-
-  // Get room from URI
-  var room = getUriFromSocket(socket);
+  var room = lib.getRoomFromUri(getUriFromSocket(socket));
 
   // Do stuff on disconnect
   socket.on('disconnect', function() {
@@ -62,46 +58,38 @@ io.on('connection', function (socket) {
   });
 
   socket.on('join_room', function(data) {
-    var room = lib.getRoomFromUri(getUriFromSocket(socket));
     if (rooms[room] !== undefined) {
-      socket.join(room);
       // add player to room
       // TODO: remove player on disconnect
+      socket.join(room);
       rooms[room].players.push(client);
       io.to(room).emit('status', { client_count: io.sockets.adapter.rooms[room].length });
     }
   });
 
-  socket.on('room_disconnect', function(data) {
-    console.log(data.room, 'disconnected.');
-    io.to(data.room).emit('status', { client_count: io.sockets.adapter.rooms[data.room].length });
-  });
-
-  // Count players in all rooms
-  var currentGames = [];
-  Object.keys(rooms).forEach(function(room) {
-    if(io.sockets.adapter.rooms[room]) {
-      currentGames.push({
-	room: room,
-	playerCount: io.sockets.adapter.rooms[room].length
-      });
-    } else {
-      console.log(room, 'doesnt exitst');
-    }
-  });
-
-  // Sort currentGames by playercount
-  currentGames.sort(function(a, b) {
-    return b.playerCount - a.playerCount;
-  });
-  console.log(currentGames);
-
   // Update lobby page with total number of people connected
   io.emit('new connection', {
-    total_client_count: io.engine.clientsCount ,
-    currentGames: currentGames
+    total_client_count: io.engine.clientsCount,
+    currentGames: getCurrentGames()
   });
 });
+
+function getCurrentGames() {
+  var currentGames = [];
+  Object.keys(rooms).forEach(function(room) {
+    currentGames.push({
+      room: room,
+      playerCount: Object.keys(rooms[room].players).length
+    });
+  });
+
+ // Sort currentGames by playercount
+ currentGames.sort(function(a, b) {
+   return b.playerCount - a.playerCount;
+ });
+
+ return currentGames;
+}
 
 function getUriFromSocket(socket) {
   var url = socket.request.headers.referer.split(socket.request.headers.host);

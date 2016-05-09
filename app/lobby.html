@@ -9,9 +9,20 @@
       var socket = io.connect();
       socket.on('new connection', function (data) {
         var clients = data.total_client_count;
-        console.log(data.currentGames);
+        listLobby(data.currentGames);
         document.getElementById("status").innerHTML = "Total clients connected: " + clients;
       });
+      function listLobby(currentGames) {
+        console.log(currentGames);
+        for (i in currentGames) {
+          document.getElementById("lobby").innerHTML += gameDiv(currentGames[i]);
+        };
+      }
+      function gameDiv(game) {
+        return '<div class="game">'
+          + game.room + ': ' + game.playerCount
+          + '</div>';
+      }
     </script>
     <script src="/createRoom.js"></script>
   </head>
@@ -19,10 +30,12 @@
     <h1>484 Snakes!</h1>
     <p>Lobby Page</p>
     <div id="status"></div>
-    <form onsubmit="return createRoom(room.value);">
+    <div id="lobby"></div>
+    <form onsubmit="return createRoom(room.value);" action="/g">
       Create Room:
       <input id="room" type="text">
       <input type="submit">
     </form>
   </body>
-</html>
+</
+html>

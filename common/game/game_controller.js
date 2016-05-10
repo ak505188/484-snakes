@@ -1,26 +1,27 @@
-function GameController() {
+function GameController(_canvas, _stageRep) {
 	//mess with these
 	var WIDTH_RATIO = 0.5;
 	var HEIGHT_RATIO = 0.7;
-	var BASE_STEP = 200;
 
-	//init code
-	var canvas = document.getElementById('game');
+	//fields
+	var canvas = _canvas;
 	var ctx = canvas.getContext('2d');
-	var inputMode = /*document.getElementById('inputMode')*/ 'random';
+	var stageRep = _stageRep;
 	var step;	//game step in ms
 	var stepInterval;	//reference to interval
+	var drawInterval;
 
+	//init
 	(function() {
-		if (inputMode === 'random') {
-			var ran = new RandomGridGenerator(BASE_STEP);
-			ran.populateGrid();
-		} else {
-			var jsonData = document.getElementById('jsonInput').value;	//todo: instead of an expression, just populate the grid
-			grid.populateData(jsonData);	//todo: maybe use a grid populator???
-		}
-		step = Utils.grid.getStep();
 		Utils.spawnTime = 10;
+		var gen;
+		if (stageRep) {
+			gen = new UploadGenerator(stageRep);
+		} else {
+			gen = new RandomGridGenerator();
+		}
+		gen.populateGrid();
+		step = Utils.grid.getStep();
 		window.onresize = handleResize;
 		handleResize();
 	})();
@@ -29,7 +30,7 @@ function GameController() {
 	// public
 	this.start = function() {
 		stepInterval = setInterval(handleStep, step);
-		setInterval(handleFlash, 50);
+		drawInterval = setInterval(handleFlash, 50);
 	};
 
 	this.restart = function() {
@@ -39,6 +40,11 @@ function GameController() {
 
 	this.setStep = function(_step) {
 		step = _step;
+	};
+
+	this.stop = function() {
+		clearInterval(stepInterval);
+		clearInterval(drawInterval);
 	};
 
 

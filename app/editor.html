@@ -3,11 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Editor</title>
-    <!-- dont commit the change in directories -->
     <script type="text/javascript" src="/util/utils.js" defer></script>
-    <script type="text/javascript" src="/game/inheritance.js" defer></script>
+    <script type="text/javascript" src="/util/inheritance.js" defer></script>
+    <script type="text/javascript" src="/util/node.js" defer></script>
+    <script type="text/javascript" src="/util/queue.js" defer></script>
     <script type="text/javascript" src="/game/game_grid.js" defer></script>
     <script type="text/javascript" src="/game/game_controller.js" defer></script>
+    <script type="text/javascript" src="/editor/test_controller.js" defer></script>
+    <script type="text/javascript" src="/game/generator/stage_generator.js" defer></script>
+    <script type="text/javascript" src="/game/generator/upload_generator.js" defer></script>
     <script type="text/javascript" src="/game/game_object/game_object.js" defer></script>
     <script type="text/javascript" src="/game/game_object/body_part.js" defer></script>
     <script type="text/javascript" src="/game/game_object/snake.js" defer></script>
@@ -16,18 +20,51 @@
     <script type="text/javascript" src="/game/game_object/spawned/wanderer.js" defer></script>
     <script type="text/javascript" src="/editor/selection_canvas.js" defer></script>
     <script type="text/javascript" src="/editor/editor_canvas.js" defer></script>
+    <script type="text/javascript" src="/editor/export_generator.js" defer></script>
+    <script type="text/javascript" src="/editor/editor_resizer.js" defer></script>
     <script type="text/javascript" src="/editor/current_canvas.js" defer></script>
     <script type="text/javascript" src="/editor/main.js" defer></script>
 </head>
 <body>
-    <div>
-        <canvas id="selection"></canvas>
+    <div id="editorBody">
+        <form>
+            <fieldset>
+                <legend>Play Properties</legend>
+                <label>Title:</label>
+                <input id="title" type="text"/><br/>
+                <label>Difficulty (0 - 30):</label>
+                <input id="difficulty" type="number" min="0" max="30"/><br/>
+                <label>Speed (0 - 9):</label>
+                <input id="speed" type="number" min="0" max="9"/><br/>
+            </fieldset>
+        </form>
+        <form>
+            <fieldset>
+                <legend>Change Dimensions</legend>
+                <label>Width (5 - 100):</label>
+                <input id="width" type="number" min="5" max="100"/><br/>
+                <label>Height (5 - 100):</label>
+                <input id="height" type="number" min="5" max="100"/><br/>
+                <input type="submit" value="Update" onclick="doResize(event)"/>
+            </fieldset>
+        </form>
+        <div>
+            <canvas id="selection"></canvas>
+            <span>Current Width: <span id="currentWidth">20</span></span>
+            <span>Current Height: <span id="currentHeight">20</span></span>
+        </div>
+        <div>
+            <canvas id="editor"></canvas>
+        </div>
+        <div>
+            <canvas id="current"></canvas>
+            <button onclick="doExport()">Export</button>
+            <button onclick="doEnterTest()">Test Stage</button>
+        </div>
     </div>
-    <div>
-        <canvas id="editor"></canvas>
-    </div>
-    <div>
-        <canvas id="current"></canvas>
+    <div id="testBody" hidden>
+        <canvas id="test"></canvas>
+        <button onclick="doExitTest()">Return to Editor</button>
     </div>
 </body>
 </html>

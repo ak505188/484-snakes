@@ -13,8 +13,6 @@ function BodyPart(_rep) {
     FILL_COLORS[DARK_COLOR] = '#b4d310';
     FILL_COLORS[LIGHT_COLOR] = '#e9fcf4';
 
-    var LIFE_SPAN = 40;
-
     //private fields
     var snake = _rep.snake;
     var colorNum = 0;
@@ -23,7 +21,7 @@ function BodyPart(_rep) {
     //@Override
     this.update = function(gridMap, spawnMap, width, height, step) {
         if (!snake) {
-            if (lifeNum >= LIFE_SPAN) {
+            if (lifeNum >= Utils.grid.getPelletLifeSpan()) {
                 lifeNum = 0;
                 Utils.grid.moveToRandom(this);
             }
@@ -46,5 +44,14 @@ function BodyPart(_rep) {
     this.joinSnake = function(_snake) {
         snake = _snake;
         this.setClassification(Utils.hazard);
+    };
+
+    this.getConfig = function() {
+        return {
+            name: 'BodyPart',
+            x: this.getX(),
+            y: this.getY(),
+            classification: this.classify()
+        };
     };
 }

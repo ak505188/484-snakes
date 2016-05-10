@@ -1,7 +1,7 @@
 inherits(SpawnedObject, Block);
 
-function Block(_rep, _spawnTime) {
-	SpawnedObject.call(this, _rep, 'Block', Utils.hazard, _spawnTime || Utils.spawnTime);
+function Block(_rep) {
+	SpawnedObject.call(this, _rep, 'Block', Utils.hazard, Utils.spawnTime);
 
 	//constants
 	var FLASH_LIMIT = 4;
@@ -21,5 +21,13 @@ function Block(_rep, _spawnTime) {
 			ctx.fillRect(this.getX() * cellWidth, this.getY() * cellHeight, cellWidth, cellHeight);	//todo: move this to generate location... always seems to be the same code...
 		}
 		flashProg++;
+	};
+
+	this.getConfig = function() {
+		return {
+			name: 'Block',
+			x: this.getX(),
+			y: this.getY()
+		};
 	};
 }

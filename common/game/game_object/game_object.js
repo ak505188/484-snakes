@@ -60,14 +60,6 @@ function GameObject(_rep, _type, _classification) {
 		return classification === Utils.pickup;
 	};
 
-	this.getConfig = function() {
-		return {
-			x: x,
-			y: y,
-			classification: classification
-		};
-	};
-
 	this.getType = function() {
 		return type;
 	};
@@ -76,4 +68,5 @@ function GameObject(_rep, _type, _classification) {
 	//abstract
 	this.update = function(gridMap, spawnMap, width, height) {};
 	this.draw = function(ctx, cellWidth, cellHeight) {};
+	this.getConfig = function() {};
 }

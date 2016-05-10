@@ -23,7 +23,7 @@ function Wanderer(_rep, _spawnTime) {
     var tier = _rep.tier;
     var color;
     var moveDelay;
-    var moveProg;
+    var moveProg = 0;
 
     //init
     (function() {
@@ -49,6 +49,15 @@ function Wanderer(_rep, _spawnTime) {
                 moveProg = 0;
             }
         }
+    };
+
+    this.getConfig = function() {
+        return {
+            name: 'Wanderer',
+            x: this.getX(),
+            y: this.getY(),
+            tier: this.getTier()
+        };
     };
 
     this.draw = function(ctx, cellWidth, cellHeight) {

@@ -51,7 +51,7 @@ function SelectionCanvas() {
     }
 
     function handleClick(event) {
-        var xPos = event.x - canvas.offsetLeft;
+        var xPos = event.offsetX;
         var index = Math.floor(xPos / (canvas.width / NUM_OBJECTS));
         if (index < objects.length) {
             var obj = objects[index];

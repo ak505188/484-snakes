@@ -6,6 +6,7 @@ var Utils = {
     grid: null,
     controller: null,
     spawnTime: 0,
+    baseStep: 500,
 
     //keyboard codes
     keyLeft: 37,
@@ -20,6 +21,14 @@ var Utils = {
     //spawn offsets
     wandererOffset: 5,
     fastWandererOffset: 20,
+
+    //starting
+    startingInfo: {
+        "0": {x: 2/3, y: 1/3, direction: this.keyRight},
+        "1": {x: 2/3, y: 2/3, direction: this.keyDown},
+        "2": {x: 1/3, y: 2/3, direction: this.keyLeft},
+        "3": {x: 1/3, y: 1/3, direction: this.keyUp}
+    },
 
 
     addVectors: function(v1, v2) {

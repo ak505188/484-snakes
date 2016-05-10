@@ -1,5 +1,6 @@
 (function() {
 	//begins game
-	Utils.controller = new GameController();
+	var canvas = document.getElementById('game');
+	Utils.controller = new GameController(canvas);
 	Utils.controller.start();
 })();

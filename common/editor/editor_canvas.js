@@ -6,7 +6,6 @@ function EditorCanvas() {
 
     //private fields
     var scope = this;
-    //todo: make this settable in UI
     var width = 20;
     var height = 20;
     var difficulty = 0;
@@ -21,7 +20,9 @@ function EditorCanvas() {
     (function() {
         canvas.width = WIDTH;
         canvas.height = HEIGHT;
-        canvas.addEventListener('mousedown', onClick, false);
+        canvas.addEventListener('contextmenu', handleRightClick, false);
+        canvas.addEventListener('mousedown', handleLeftClick, false);
+        Utils.grid = grid;
     })();
 
     //public
@@ -34,20 +35,12 @@ function EditorCanvas() {
     };
 
     //private helpers
-    function onClick(event) {
-        if (event.which === 1) {
-            handleLeftClick(event);
-        } else if (event.which === 3 || event.button === 2) {
-            handleRightClick(event);
-        }
-    }
-
     function handleLeftClick(event) {
         if (currentObj) {
             var clone = Utils.clone(currentObj);
             var cellDim = grid.getCellDimensions(canvas.width, canvas.height);
-            var x = Math.floor((event.x - canvas.offsetLeft) / cellDim.width);
-            var y = Math.floor((event.y - canvas.offsetTop) / cellDim.height);
+            var x = Math.floor(event.offsetX / cellDim.width);
+            var y = Math.floor(event.offsetY / cellDim.height);
 
             clone.setX(x);
             clone.setY(y);
@@ -55,13 +48,12 @@ function EditorCanvas() {
         }
     }
 
-    //todo: figure out how to properly respond to right click and block context menu
     function handleRightClick(event) {
+        event.preventDefault(); //prevents context menu from showing up
         var cellDim = grid.getCellDimensions(canvas.width, canvas.height);
-        var x = Math.floor((event.x - canvas.offsetLeft) / cellDim.width);
-        var y = Math.floor((event.y - canvas.offsetTop) / cellDim.height);
+        var x = Math.floor(event.offsetX / cellDim.width);
+        var y = Math.floor(event.offsetY / cellDim.height);
 
         grid.removeAt(x, y);
-        return false;
     }
 }

@@ -1,8 +1,9 @@
-function GameGrid(_width, _height, _difficulty, _baseStep) {
+function GameGrid(_width, _height, _difficulty, _speed) {
 	var scope = this;	//allows private context to access public scope
 	var width = _width;
 	var height = _height;
 	var difficulty = _difficulty;
+	var speed = _speed;
 	var step = calculateStep();
 
 	var gridMap = {};	//map grid of game objects
@@ -38,8 +39,8 @@ function GameGrid(_width, _height, _difficulty, _baseStep) {
 
 	this.getCellDimensions = function(canvasWidth, canvasHeight) {
 		return {
-			width: canvasWidth / width,
-			height: canvasHeight / height
+			width: canvasWidth / this.getWidth(),
+			height: canvasHeight / this.getHeight()
 		};
 	};
 
@@ -117,8 +118,16 @@ function GameGrid(_width, _height, _difficulty, _baseStep) {
 		return width;
 	};
 
+	this.setWidth = function(_width) {
+		width = _width;
+	}
+
 	this.getHeight = function() {
 		return height;
+	};
+
+	this.setHeight = function(_height) {
+		height = _height;
 	};
 
 	this.getStep = function() {
@@ -220,6 +229,22 @@ function GameGrid(_width, _height, _difficulty, _baseStep) {
 			position.y >= height;
 	};
 
+	this.getPelletLifeSpan = function() {
+		return 40 + (speed * 15);
+	};
+
+	this.getGridMap = function() {
+		return gridMap;
+	};
+
+	this.setGridMap = function(_gridMap) {
+		gridMap = _gridMap;
+	}
+
+	this.getSpeed = function() {
+		return speed;
+	};
+
 
 	//private helpers
 	function drawBackground(ctx, canvasWidth, canvasHeight) {
@@ -253,7 +278,7 @@ function GameGrid(_width, _height, _difficulty, _baseStep) {
 				obj.update(gridMap, spawnMap, width, height);
 				if (!obj.isSpawning()) {
 					if (gridMap[key]) {
-						spawnMap[key] = obj;
+						waitMap[key] = obj;
 					} else {
 						gridMap[key] = obj;
 					}
@@ -272,6 +297,6 @@ function GameGrid(_width, _height, _difficulty, _baseStep) {
 	}
 
 	function calculateStep() {
-		return _baseStep - (_difficulty * 5);
+		return Utils.baseStep - (50 * speed + 5 * difficulty);
 	}
 }

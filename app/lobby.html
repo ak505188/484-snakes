@@ -4,6 +4,7 @@
     <meta charset=utf-8>
     <meta name="viewport" content="width=device-width">
     <title>Snake Online!</title>
+    <link rel="stylesheet" type="text/css" href="/styles/lobby.css">
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = io.connect();
@@ -14,28 +15,28 @@
       });
       function listLobby(currentGames) {
         console.log(currentGames);
+        document.getElementById("lobby").innerHTML = '';
         for (i in currentGames) {
           document.getElementById("lobby").innerHTML += gameDiv(currentGames[i]);
         };
       }
       function gameDiv(game) {
-        return '<div class="game">'
-          + game.room + ': ' + game.playerCount
-          + '</div>';
+        var div = '<div class="game">' + game.room + ': ' + game.playerCount + '</div>';
+        return div;
       }
     </script>
     <script src="/createRoom.js"></script>
   </head>
   <body>
     <h1>484 Snakes!</h1>
-    <p>Lobby Page</p>
     <div id="status"></div>
-    <div id="lobby"></div>
+    <div id="lobby">
+      Active Lobbies
+    </div>
     <form onsubmit="return createRoom(room.value);" action="/g">
       Create Room:
       <input id="room" type="text">
       <input type="submit">
     </form>
   </body>
-</
-html>
+</html>

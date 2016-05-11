@@ -1,0 +1,9 @@
+#lobby {
+	font-size: 30pt;
+}
+
+.game {
+	border-style: solid;
+	border-width: 1px;
+	font-size: 20pt;
+}

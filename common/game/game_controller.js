@@ -47,6 +47,10 @@ function GameController(_canvas, _stageRep) {
 		clearInterval(drawInterval);
 	};
 
+	this.isUploadMode = function() {
+		return stageRep != undefined && stageRep != null;
+	};
+
 
 	//private functions
 	function handleResize() {

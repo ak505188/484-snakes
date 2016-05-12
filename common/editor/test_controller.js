@@ -13,10 +13,15 @@ function TestController() {
         var generator = new ExportGenerator(gridMap);
         var json = generator.generateJSON();
 
-        Utils.controller = new GameController(canvas, json).start();   //todo: maybe store a reference to this so you can stop the intervals on exit?
+        Utils.controller = new GameController(canvas, json);
+        Utils.controller.start();
     };
 
     this.exitTest = function() {
+        Utils.controller.stop();
+        testBodyEl.style.display = 'none';
+        editorBodyEl.style.display = 'block';
+
 
     };
 }

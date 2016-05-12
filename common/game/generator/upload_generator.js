@@ -13,7 +13,6 @@ function UploadGenerator(_json) {
 
     //@Override
     this.generateStage = function() {
-        debugger;
         for (var key in repMap) {
             if (repMap.hasOwnProperty(key)) {
                 var rep = repMap[key];

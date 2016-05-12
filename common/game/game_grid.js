@@ -212,7 +212,9 @@ function GameGrid(_width, _height, _difficulty, _speed) {
 	this.increaseDifficulty = function() {
 		difficulty++;
 		var step = calculateStep();
-		this.spawnAtRandomPosition('Block');
+		if (!Utils.controller.isUploadMode()) {
+			this.spawnAtRandomPosition('Block');
+		}
 		if (difficulty % Utils.fastWandererOffset == 0) {
 			this.spawnAtRandomPosition('Wanderer', { tier: 1 });
 		} else if (difficulty % Utils.wandererOffset === 0) {

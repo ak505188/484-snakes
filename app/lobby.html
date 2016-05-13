@@ -15,13 +15,21 @@
       });
       function listLobby(currentGames) {
         console.log(currentGames);
+        var gamesList = '';
         document.getElementById("lobby").innerHTML = '';
         for (i in currentGames) {
-          document.getElementById("lobby").innerHTML += gameDiv(currentGames[i]);
+          gamesList += gameDiv(currentGames[i]);
         };
+        document.getElementById("lobby").innerHTML = gamesList;
       }
       function gameDiv(game) {
-        var div = '<div class="game">' + game.room + ': ' + game.playerCount + '</div>';
+        var link = '\'/g/' + game.room + '\'';
+        var goToRoom = '"window.location.href = ' + link + ';"';
+        var button = '<button onclick=' + goToRoom + '>' + 'Join Game </button>';
+        var div = '<div class="game">'
+          + game.room + ': ' + game.playerCount + button
+          + '</div>';
+        console.log(div);
         return div;
       }
     </script>
@@ -30,9 +38,8 @@
   <body>
     <h1>484 Snakes!</h1>
     <div id="status"></div>
-    <div id="lobby">
-      Active Lobbies
-    </div>
+    <p>Active Games</p>
+    <div id="lobby"></div>
     <form onsubmit="return createRoom(room.value);" action="/g">
       Create Room:
       <input id="room" type="text">

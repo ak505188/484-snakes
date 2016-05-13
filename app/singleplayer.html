@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <meta name="viewport" content="width=device-width">
+    <title>Snake Online!</title>
+    <script type="text/javascript" src="/util/utils.js" defer></script>
+    <script type="text/javascript" src="/game/inheritance.js" defer></script>
+    <script type="text/javascript" src="/util/node.js" defer></script>
+    <script type="text/javascript" src="/util/queue.js" defer></script>
+    <script type="text/javascript" src="/game/random_generator.js" defer></script>
+    <script type="text/javascript" src="/game/game_grid.js" defer></script>
+    <script type="text/javascript" src="/game/game_controller.js" defer></script>
+    <script type="text/javascript" src="/game/game_object/game_object.js" defer></script>
+    <script type="text/javascript" src="/game/game_object/body_part.js" defer></script>
+    <script type="text/javascript" src="/game/game_object/snake.js" defer></script>
+    <script type="text/javascript" src="/game/game_object/spawned/spawned_object.js" defer></script>
+    <script type="text/javascript" src="/game/game_object/spawned/block.js" defer></script>
+    <script type="text/javascript" src="/game/game_object/spawned/wanderer.js" defer></script>
+    <script type="text/javascript" src="/game/main.js" defer></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/bundle.js"></script>
+    <script>
+      // Only used for keeping track of clientcount
+      var socket = io.connect();
+    </script>
+  </head>
+  <body>
+    <h1>484 Snakes!</h1>
+    <p>Game page!</p>
+    <div id="status"></div>
+    <canvas id="game"></canvas>
+  </body>
+</html>

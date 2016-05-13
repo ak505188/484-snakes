@@ -35,8 +35,12 @@ app.get('/g/*', function(req, res) {
     res.sendStatus(404);
     // TODO: Send createGame page
   } else {
-    res.sendFile('app/game.html', { root: global.root_dir });
+    res.sendFile('app/multiplayer.html', { root: global.root_dir });
   }
+});
+
+app.get('/single', function(req, res) {
+  res.sendFile('app/singleplayer.html', { root: global.root_dir });
 });
 
 server.listen(port, hostname, function () {

@@ -1,8 +1,9 @@
-function GameGrid(_width, _height, _difficulty, _baseStep) {
+function GameGrid(_width, _height, _difficulty, _speed) {
 	var scope = this;	//allows private context to access public scope
 	var width = _width;
 	var height = _height;
 	var difficulty = _difficulty;
+	var speed = _speed;
 	var step = calculateStep();
 
 	var gridMap = {};	//map grid of game objects
@@ -12,34 +13,47 @@ function GameGrid(_width, _height, _difficulty, _baseStep) {
 
 	//public
 	this.update = function() {
+		//todo: in each subfunction, add code to generate viewList and pass in the viewConfig for each obj in a position
+		var viewList = [];
 		updateWaiting();
 		updateSnakes();
-		updateSpawning();
-		updateGrid();
+		updateSpawning(viewList);
+		updateGrid(viewList);
+
+		var viewConfig = {
+			//todo: width and height should NOT be sent every frame -- should come from initializer from player 1 and be pushed once from the server code when a new player connects
+			width: width,
+			height: height,
+			viewList: viewList
+		};
+		//todo: push the value to the renderer newConfig for ALL players
 	};
 
+	//todo: remove this entirely
 	this.render = function(ctx, canvasWidth, canvasHeight) {
 		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 		drawBackground(ctx, canvasWidth, canvasHeight);
 
-		var cellWidth = canvasWidth / width;
-		var cellHeight = canvasHeight / height;
+		var dim = this.getCellDimensions(canvasWidth, canvasHeight);
 		var key;
 		for (key in spawnMap) {
 			if (spawnMap.hasOwnProperty(key)) {
-				spawnMap[key].draw(ctx, cellWidth, cellHeight);
+				spawnMap[key].draw(ctx, dim.width, dim.height);
 			}
 		}
 		for (key in gridMap) {
 			if (gridMap.hasOwnProperty(key)) {
-				gridMap[key].draw(ctx, cellWidth, cellHeight);
+				gridMap[key].draw(ctx, dim.width, dim.height);
 			}
 		}
 	};
 
-	this.populateData = function(_data) {
-		//todo: perhaps move this to a grid populator...
-
+	//todo: move to renderer
+	this.getCellDimensions = function(canvasWidth, canvasHeight) {
+		return {
+			width: canvasWidth / this.getWidth(),
+			height: canvasHeight / this.getHeight()
+		};
 	};
 
 	this.positionToIndex = function(x, y) {
@@ -90,10 +104,15 @@ function GameGrid(_width, _height, _difficulty, _baseStep) {
 		gridMap[index] = obj;
 	};
 
-	this.removeAt = function(index) {
+	this.removeAtIndex = function(index) {
 		var obj = gridMap[index];
 		delete gridMap[index];
 		return obj;
+	};
+
+	this.removeAt = function(x, y) {
+		var index = this.positionToIndex(x, y);
+		this.removeAtIndex(index);
 	};
 
 	this.remove = function(obj) {
@@ -106,8 +125,16 @@ function GameGrid(_width, _height, _difficulty, _baseStep) {
 		return width;
 	};
 
+	this.setWidth = function(_width) {
+		width = _width;
+	}
+
 	this.getHeight = function() {
 		return height;
+	};
+
+	this.setHeight = function(_height) {
+		height = _height;
 	};
 
 	this.getStep = function() {
@@ -192,7 +219,9 @@ function GameGrid(_width, _height, _difficulty, _baseStep) {
 	this.increaseDifficulty = function() {
 		difficulty++;
 		var step = calculateStep();
-		this.spawnAtRandomPosition('Block');
+		if (!Utils.controller.isUploadMode()) {
+			this.spawnAtRandomPosition('Block');
+		}
 		if (difficulty % Utils.fastWandererOffset == 0) {
 			this.spawnAtRandomPosition('Wanderer', { tier: 1 });
 		} else if (difficulty % Utils.wandererOffset === 0) {
@@ -209,8 +238,25 @@ function GameGrid(_width, _height, _difficulty, _baseStep) {
 			position.y >= height;
 	};
 
+	this.getPelletLifeSpan = function() {
+		return 40 + (speed * 15);
+	};
+
+	this.getGridMap = function() {
+		return gridMap;
+	};
+
+	this.setGridMap = function(_gridMap) {
+		gridMap = _gridMap;
+	}
+
+	this.getSpeed = function() {
+		return speed;
+	};
+
 
 	//private helpers
+	//todo: remove!
 	function drawBackground(ctx, canvasWidth, canvasHeight) {
 		ctx.strokeStyle = '#000000';
 		ctx.fillStyle = '#aaaaaa';
@@ -235,32 +281,36 @@ function GameGrid(_width, _height, _difficulty, _baseStep) {
 		}
 	}
 
-	function updateSpawning() {
+	function updateSpawning(viewList) {
 		for (var key in spawnMap) {
 			if (spawnMap.hasOwnProperty(key)) {
 				var obj = spawnMap[key];
 				obj.update(gridMap, spawnMap, width, height);
 				if (!obj.isSpawning()) {
 					if (gridMap[key]) {
-						spawnMap[key] = obj;
+						waitMap[key] = obj;
 					} else {
 						gridMap[key] = obj;
 					}
 					delete spawnMap[key];
+				} else {
+					viewList.push(obj.getViewConfig());
 				}
 			}
 		}
 	}
 
-	function updateGrid() {
+	function updateGrid(viewList) {
 		for (var key in gridMap) {
 			if (gridMap.hasOwnProperty(key)) {
-				gridMap[key].update(gridMap, spawnMap, width, height, step);
+				var obj = gridMap[key];
+				obj.update(gridMap, spawnMap, width, height, step);
+				viewList.push(obj.getViewConfig());
 			}
 		}
 	}
 
 	function calculateStep() {
-		return _baseStep - (_difficulty * 5);
+		return Utils.baseStep - (50 * speed + 5 * difficulty);
 	}
 }

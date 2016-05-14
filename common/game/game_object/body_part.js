@@ -1,29 +1,35 @@
 inherits(GameObject, BodyPart);
 
 function BodyPart(_rep) {
-    GameObject.call(this, _rep, _rep.classification);
+    GameObject.call(
+        this,
+        _rep,
+        'BodyPart',
+        _rep.classification,
+        '#b4d310',
+        '#e9fcf4',
+        6
+    );
 
     //constant
-    var COLOR_STEP = 6;
-    var DARK_COLOR = false;
-    var LIGHT_COLOR = true;
+    var COLOR_STEP = 6; //todo: remove
+    var DARK_COLOR = false; //todo: remove
+    var LIGHT_COLOR = true; //todo: remove
 
     //todo: color should be determined by player num
-    var FILL_COLORS = {};
-    FILL_COLORS[DARK_COLOR] = '#b4d310';
-    FILL_COLORS[LIGHT_COLOR] = '#e9fcf4';
-
-    var LIFE_SPAN = 40;
+    var FILL_COLORS = {}; //todo: remove
+    FILL_COLORS[DARK_COLOR] = '#b4d310'; //todo: remove
+    FILL_COLORS[LIGHT_COLOR] = '#e9fcf4'; //todo: remove
 
     //private fields
     var snake = _rep.snake;
-    var colorNum = 0;
+    var colorNum = 0; //todo: remove
     var lifeNum = 0;
 
     //@Override
     this.update = function(gridMap, spawnMap, width, height, step) {
         if (!snake) {
-            if (lifeNum >= LIFE_SPAN) {
+            if (lifeNum >= Utils.grid.getPelletLifeSpan()) {
                 lifeNum = 0;
                 Utils.grid.moveToRandom(this);
             }
@@ -46,5 +52,14 @@ function BodyPart(_rep) {
     this.joinSnake = function(_snake) {
         snake = _snake;
         this.setClassification(Utils.hazard);
+    };
+
+    this.getConfig = function() {
+        return {
+            name: 'BodyPart',
+            x: this.getX(),
+            y: this.getY(),
+            classification: this.classify()
+        };
     };
 }

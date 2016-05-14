@@ -1,11 +1,12 @@
 inherits(GameObject, Snake);
 
 function Snake(_rep) {
-	GameObject.call(this, _rep, Utils.hazard);
+	GameObject.call(this, _rep, 'Snake', Utils.hazard);	//no need to pass in colors since snake is never rendered!
 
 	/** a snake based off a collection of body parts - x and y position represent the position of the head */
 	/** the snake is not stored in the grid's map; instead is in a separate list that updates first. it's body parts are in the grid map. */
 
+	//todo: prob move all this to front end listener
 	//constants
 	var DIRECTION = {};
 	DIRECTION[Utils.keyLeft] = {x: -1, y: 0};
@@ -22,12 +23,14 @@ function Snake(_rep) {
 	//fields
 	var scope = this;
 	var length = _rep.defaultLength || 1;
+	var bodyParts = new Queue();
+	var dead = false;
+
+	//todo: move this to player listener
 	var previousKey = _rep.direction;
 	var previousMovement = _rep.direction;
 	var direction = DIRECTION[_rep.direction] || DIRECTION[Utils.keyRight];
 	var playerNum = _rep.playerNum || 0;
-	var bodyParts = new Queue();
-	var dead = false;
 
 	//init code
 	(function() {
@@ -46,6 +49,7 @@ function Snake(_rep) {
 	})();
 
 	//keyboard event -- this prob needs to be moved to controller (register key bindings that relate to certain objects...?)
+	//todo: move to front-end listener
 	window.onkeydown = handleKeyPress;
 
 	//public

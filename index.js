@@ -43,6 +43,10 @@ app.get('/single', function(req, res) {
   res.sendFile('app/singleplayer.html', { root: global.root_dir });
 });
 
+app.get('/edit', function(req, res) {
+  res.sendFile('app/editor.html', { root: global.root_dir });
+});
+
 server.listen(port, hostname, function () {
   console.log('Listening on port %s. Open http://localhost:%s in browser.', port, port);
 });

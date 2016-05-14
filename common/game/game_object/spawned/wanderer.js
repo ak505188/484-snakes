@@ -1,7 +1,16 @@
 inherits(SpawnedObject, Wanderer);
 
-function Wanderer(_rep) {
-    SpawnedObject.call(this, _rep, Utils.hazard, Utils.spawnTime);
+function Wanderer(_rep, _spawnTime) {
+    SpawnedObject.call(
+        this,
+        _rep,
+        'Wanderer',
+        Utils.hazard,
+        _spawnTime || Utils.spawnTime,
+        '#e3c800' /*todo: need logic for determining color*/,
+        Utils.noColor,
+        Utils.spawnFlashTime
+    );
 
     //constants
     var BASE_DELAY = 10;
@@ -23,7 +32,7 @@ function Wanderer(_rep) {
     var tier = _rep.tier;
     var color;
     var moveDelay;
-    var moveProg;
+    var moveProg = 0;
 
     //init
     (function() {
@@ -51,12 +60,25 @@ function Wanderer(_rep) {
         }
     };
 
+    this.getConfig = function() {
+        return {
+            name: 'Wanderer',
+            x: this.getX(),
+            y: this.getY(),
+            tier: this.getTier()
+        };
+    };
+
     this.draw = function(ctx, cellWidth, cellHeight) {
         ctx.fillStyle = color;
         if (!this.isSpawning() || flashProg % FLASH_LIMIT < FLASH_LIMIT / 2) {
             ctx.fillRect(this.getX() * cellWidth, this.getY() * cellHeight, cellWidth, cellHeight);	//todo: move this to generate location... always seems to be the same code...
         }
         flashProg++;
+    };
+
+    this.getTier = function() {
+        return tier;
     };
 
 

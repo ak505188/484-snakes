@@ -1,26 +1,28 @@
-function GameController() {
+function GameController(/*todo: remove param*/_canvas, _initialConfig) {
 	//mess with these
-	var WIDTH_RATIO = 0.5;
-	var HEIGHT_RATIO = 0.7;
-	var BASE_STEP = 200;
+	var WIDTH_RATIO = 0.5;	//todo: remove
+	var HEIGHT_RATIO = 0.7;	//todo: remove
 
-	//init code
-	var canvas = document.getElementById('game');
-	var ctx = canvas.getContext('2d');
-	var inputMode = /*document.getElementById('inputMode')*/ 'random';
+	//fields
+	var canvas = _canvas;	//todo: remove
+	var ctx = canvas.getContext('2d');	//todo: remove
+	var initialConfig = _initialConfig;
 	var step;	//game step in ms
 	var stepInterval;	//reference to interval
+	var drawInterval;	//todo: remove???
 
+	//init
 	(function() {
-		if (inputMode === 'random') {
-			var ran = new RandomGridGenerator(BASE_STEP);
-			ran.populateGrid();
+		Utils.spawnTime = 10;
+		var gen;
+		if (initialConfig/*.stageData*/) {	//todo: for now initialConfig is stageData json, but this will change
+			gen = new UploadGenerator(initialConfig/*.stageData*/);
 		} else {
-			var jsonData = document.getElementById('jsonInput').value;	//todo: instead of an expression, just populate the grid
-			grid.populateData(jsonData);	//todo: maybe use a grid populator???
+			gen = new RandomGridGenerator(/*initialConfig*/);	//todo: pass in initConfig from which to grab random params
 		}
+		gen.populateGrid();
 		step = Utils.grid.getStep();
-		window.onresize = handleResize;
+		window.onresize = handleResize;	//todo: remove
 		handleResize();
 	})();
 
@@ -28,7 +30,7 @@ function GameController() {
 	// public
 	this.start = function() {
 		stepInterval = setInterval(handleStep, step);
-		setInterval(handleFlash, 50);
+		drawInterval = setInterval(handleFlash, 50);	//todo: remove
 	};
 
 	this.restart = function() {
@@ -40,8 +42,18 @@ function GameController() {
 		step = _step;
 	};
 
+	this.stop = function() {
+		clearInterval(stepInterval);
+		clearInterval(drawInterval);
+	};
+
+	this.isUploadMode = function() {
+		return initialConfig != undefined && initialConfig != null;
+	};
+
 
 	//private functions
+	//todo: remove
 	function handleResize() {
 		canvas.width = WIDTH_RATIO * window.innerWidth;
 		canvas.height = HEIGHT_RATIO * window.innerHeight;
@@ -52,6 +64,7 @@ function GameController() {
 		Utils.grid.update();
 	}
 
+	//todo: remove
 	function handleFlash() {
 		Utils.grid.render(ctx, canvas.width, canvas.height);
 	}

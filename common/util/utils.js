@@ -1,11 +1,17 @@
 //todo: this remains until we find an easier way to pass grid around
+//todo: we may need to split this or have two instances of it because of the separation between front and back end
 
 var Utils = {
 
-    //global constants
+    //global references to components -- terrible
     grid: null,
+    editorGrid: null,
     controller: null,
+
+    //global constants
     spawnTime: 0,
+    spawnFlashTime: 4,
+    noColor: 'none',
     baseStep: 500,
 
     //keyboard codes

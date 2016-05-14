@@ -1,4 +1,6 @@
 (function() {
+    //main app for stage editor
+
     var selector = new SelectionCanvas();
     var editor = new EditorCanvas();
     var current = new CurrentCanvas();

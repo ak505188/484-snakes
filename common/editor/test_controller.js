@@ -9,9 +9,9 @@ function TestController() {
         editorBodyEl.style.display = 'none';
         testBodyEl.style.display = 'block';
 
-        var gridMap = Utils.grid.getGridMap();
+        var gridMap = Utils.editorGrid.getGridMap();
         var generator = new ExportGenerator(gridMap);
-        var json = generator.generateJSON();
+        var json = JSON.parse(generator.generateJSONStr());
 
         Utils.controller = new GameController(canvas, json);
         Utils.controller.start();
@@ -19,10 +19,9 @@ function TestController() {
 
     this.exitTest = function() {
         Utils.controller.stop();
+        Utils.spawnTime = 0;
         testBodyEl.style.display = 'none';
         editorBodyEl.style.display = 'block';
-
-
     };
 }
 

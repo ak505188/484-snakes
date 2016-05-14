@@ -13,12 +13,23 @@ function GameGrid(_width, _height, _difficulty, _speed) {
 
 	//public
 	this.update = function() {
+		//todo: in each subfunction, add code to generate viewList and pass in the viewConfig for each obj in a position
+		var viewList = [];
 		updateWaiting();
 		updateSnakes();
-		updateSpawning();
-		updateGrid();
+		updateSpawning(viewList);
+		updateGrid(viewList);
+
+		var viewConfig = {
+			//todo: width and height should NOT be sent every frame -- should come from initializer from player 1 and be pushed once from the server code when a new player connects
+			width: width,
+			height: height,
+			viewList: viewList
+		};
+		//todo: push the value to the renderer newConfig for ALL players
 	};
 
+	//todo: remove this entirely
 	this.render = function(ctx, canvasWidth, canvasHeight) {
 		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 		drawBackground(ctx, canvasWidth, canvasHeight);
@@ -37,16 +48,12 @@ function GameGrid(_width, _height, _difficulty, _speed) {
 		}
 	};
 
+	//todo: move to renderer
 	this.getCellDimensions = function(canvasWidth, canvasHeight) {
 		return {
 			width: canvasWidth / this.getWidth(),
 			height: canvasHeight / this.getHeight()
 		};
-	};
-
-	this.populateData = function(_data) {
-		//todo: perhaps move this to a grid populator...
-
 	};
 
 	this.positionToIndex = function(x, y) {
@@ -249,6 +256,7 @@ function GameGrid(_width, _height, _difficulty, _speed) {
 
 
 	//private helpers
+	//todo: remove!
 	function drawBackground(ctx, canvasWidth, canvasHeight) {
 		ctx.strokeStyle = '#000000';
 		ctx.fillStyle = '#aaaaaa';
@@ -273,7 +281,7 @@ function GameGrid(_width, _height, _difficulty, _speed) {
 		}
 	}
 
-	function updateSpawning() {
+	function updateSpawning(viewList) {
 		for (var key in spawnMap) {
 			if (spawnMap.hasOwnProperty(key)) {
 				var obj = spawnMap[key];
@@ -285,15 +293,19 @@ function GameGrid(_width, _height, _difficulty, _speed) {
 						gridMap[key] = obj;
 					}
 					delete spawnMap[key];
+				} else {
+					viewList.push(obj.getViewConfig());
 				}
 			}
 		}
 	}
 
-	function updateGrid() {
+	function updateGrid(viewList) {
 		for (var key in gridMap) {
 			if (gridMap.hasOwnProperty(key)) {
-				gridMap[key].update(gridMap, spawnMap, width, height, step);
+				var obj = gridMap[key];
+				obj.update(gridMap, spawnMap, width, height, step);
+				viewList.push(obj.getViewConfig());
 			}
 		}
 	}

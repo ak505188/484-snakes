@@ -1,25 +1,20 @@
 function ExportGenerator(_gridMap) {
 
     var gridMap = _gridMap;
-    var difficulty = 0;
     var speed = 0;
-    var width = Utils.grid.getWidth();
-    var height = Utils.grid.getHeight();
+    var width = Utils.editorGrid.getWidth();
+    var height = Utils.editorGrid.getHeight();
 
     //init
     (function() {
-        var diffValue = document.getElementById('difficulty').value;
         var speedValue = document.getElementById('speed').value;
-        if (diffValue) {
-            difficulty = parseInt(diffValue);
-        }
         if (speedValue) {
             speed = parseInt(speedValue);
         }
     })();
 
     //public
-    this.generateJSON = function() {
+    this.generateJSONStr = function() {
         var grid = {};
         for (var key in gridMap) {
             if (gridMap.hasOwnProperty(key)) {
@@ -27,17 +22,16 @@ function ExportGenerator(_gridMap) {
             }
         }
         var jsonRep = {
-            difficulty: difficulty,
             speed: speed,
             grid: grid,
             width: width,
             height: height
         };
-        return jsonRep;
+        return JSON.stringify(jsonRep);
     };
 
     this.generateJSONFile = function(filename) {
-        var jsonStr = JSON.stringify(this.generateJSON());
+        var jsonStr = this.generateJSONStr();
 
         //note: this complicated little piece of code came from stack overflow...
         var element = document.createElement('a');
@@ -54,7 +48,7 @@ function ExportGenerator(_gridMap) {
 }
 
 function doExport() {
-    var gridMap = Utils.grid.getGridMap();
+    var gridMap = Utils.editorGrid.getGridMap();
     var filename = (document.getElementById('title').value || 'My_Stage') + '.json';
     var exp = new ExportGenerator(gridMap);
     exp.generateJSONFile(filename);

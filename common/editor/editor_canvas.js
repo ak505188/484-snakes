@@ -8,10 +8,9 @@ function EditorCanvas() {
     var scope = this;
     var width = 20;
     var height = 20;
-    var difficulty = 0;
     var baseStep = 200;
 
-    var grid = new GameGrid(width, height, difficulty, baseStep);
+    var grid = new GameGrid(width, height, 0, baseStep);
     var canvas = document.getElementById('editor');
     var ctx = canvas.getContext('2d');
     var currentObj;
@@ -22,7 +21,7 @@ function EditorCanvas() {
         canvas.height = HEIGHT;
         canvas.addEventListener('contextmenu', handleRightClick, false);
         canvas.addEventListener('mousedown', handleLeftClick, false);
-        Utils.grid = grid;
+        Utils.editorGrid = grid;
     })();
 
     //public

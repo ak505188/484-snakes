@@ -3,7 +3,7 @@ function EditorResizer() {
     var width = 20;
     var height = 20;
 
-    var grid = Utils.grid;
+    var grid = Utils.editorGrid;
     var oldWidth = grid.getWidth();
     var oldHeight = grid.getHeight();
 

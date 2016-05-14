@@ -1,7 +1,10 @@
-function GameObject(_rep, _type, _classification) {
+function GameObject(_rep, _type, _classification, _color, _flashColor, _flashTime) {
 	var x = _rep.x;
 	var y = _rep.y;
 	var type = _type;
+	var color = _color;
+	var flashColor = _flashColor;
+	var flashTime = _flashTime;
 	var classification = _classification;
 
 	this.getX = function() {
@@ -60,13 +63,34 @@ function GameObject(_rep, _type, _classification) {
 		return classification === Utils.pickup;
 	};
 
+	this.getColor = function() {
+		return color;
+	};
+
+	this.getFlashColor = function() {
+		return flashColor;
+	};
+
+	this.getFlashTime = function() {
+		return flashTime;
+	};
+
 	this.getType = function() {
 		return type;
+	};
+
+	this.getViewConfig = function() {
+		return {
+			x: x,
+			y: y,
+			color1: color,
+			color2: flashColor,
+			flashTime: flashTime
+		};
 	};
 
 
 	//abstract
 	this.update = function(gridMap, spawnMap, width, height) {};
-	this.draw = function(ctx, cellWidth, cellHeight) {};
 	this.getConfig = function() {};
 }

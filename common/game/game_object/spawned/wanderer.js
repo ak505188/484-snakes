@@ -1,7 +1,16 @@
 inherits(SpawnedObject, Wanderer);
 
 function Wanderer(_rep, _spawnTime) {
-    SpawnedObject.call(this, _rep, 'Wanderer', Utils.hazard, _spawnTime || Utils.spawnTime);
+    SpawnedObject.call(
+        this,
+        _rep,
+        'Wanderer',
+        Utils.hazard,
+        _spawnTime || Utils.spawnTime,
+        '#e3c800' /*todo: need logic for determining color*/,
+        Utils.noColor,
+        Utils.spawnFlashTime
+    );
 
     //constants
     var BASE_DELAY = 10;

@@ -1,11 +1,11 @@
 inherits(StageGenerator, RandomGridGenerator);
 
-function RandomGridGenerator() {
+function RandomGridGenerator(/*initialConfig*/) {	//todo: pass in initial config (from a player's initializer)
 	StageGenerator.call(this,
-		/*parseInt(document.getElementById('difficulty').value)*/ 0,
-		/*parseInt(document.getElementById('speed').value)*/ 6,
-		/*parseInt(document.getElementById('width').value)*/ 20,
-		/*parseInt(document.getElementById('height').value)*/ 20
+		/*initialConfig.difficulty*/ 0,
+		/*initialConfig.speed*/ 6,
+		/*initialConfig.width*/ 20,
+		/*initialConfig.height*/ 20
 	);
 
 	/**
@@ -21,7 +21,7 @@ function RandomGridGenerator() {
 
 	//@Override
 	this.generateStage = function() {
-		for (var i = 0; i < difficulty; i++) {
+		for (var i = 0, len = this.getDifficulty(); i < len; i++) {
 			Utils.grid.spawnAtRandomPosition('Block');
 		}
 	}

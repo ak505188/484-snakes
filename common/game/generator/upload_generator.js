@@ -2,7 +2,7 @@ inherits(StageGenerator, UploadGenerator);
 
 function UploadGenerator(_json) {
     StageGenerator.call(this,
-        _json.difficulty,
+        0,
         _json.speed,
         _json.width,
         _json.height

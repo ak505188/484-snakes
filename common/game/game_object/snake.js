@@ -6,31 +6,16 @@ function Snake(_rep) {
 	/** a snake based off a collection of body parts - x and y position represent the position of the head */
 	/** the snake is not stored in the grid's map; instead is in a separate list that updates first. it's body parts are in the grid map. */
 
-	//todo: prob move all this to front end listener
-	//constants
-	var DIRECTION = {};
-	DIRECTION[Utils.keyLeft] = {x: -1, y: 0};
-	DIRECTION[Utils.keyUp] = {x: 0, y: -1};
-	DIRECTION[Utils.keyRight] = {x: 1, y: 0};
-	DIRECTION[Utils.keyDown] = {x: 0, y: 1};
-
-	var OPPOSITES = {};
-	OPPOSITES[Utils.keyLeft] = Utils.keyRight;
-	OPPOSITES[Utils.keyUp] = Utils.keyDown;
-	OPPOSITES[Utils.keyRight] = Utils.keyLeft;
-	OPPOSITES[Utils.keyDown] = Utils.keyUp;
-
 	//fields
 	var scope = this;
 	var length = _rep.defaultLength || 1;
 	var bodyParts = new Queue();
 	var dead = false;
 
-	//todo: move this to player listener
-	var previousKey = _rep.direction;
-	var previousMovement = _rep.direction;
-	var direction = DIRECTION[_rep.direction] || DIRECTION[Utils.keyRight];
 	var playerNum = _rep.playerNum || 0;
+	var startingConfig = Utils.startingInfo[playerNum];
+	var direction = startingConfig.direction;
+	var previousMovement = direction;
 
 	//init code
 	(function() {
@@ -48,10 +33,6 @@ function Snake(_rep) {
 		}
 	})();
 
-	//keyboard event -- this prob needs to be moved to controller (register key bindings that relate to certain objects...?)
-	//todo: move to front-end listener
-	window.onkeydown = handleKeyPress;
-
 	//public
 	this.getCurrentLength = function() {
 		return length;
@@ -66,7 +47,6 @@ function Snake(_rep) {
 		if (!dead) {
 			var newPosition = this.getNewPosition(direction);
 			var objAtPos = gridMap[newPosition.y * width + newPosition.x];
-			previousMovement = previousKey;
 			dead = Utils.grid.isOutOfBounds(newPosition) ||
 				(objAtPos && objAtPos.isHazard());
 
@@ -83,15 +63,6 @@ function Snake(_rep) {
 			//game over or something...
 		}
 	};
-
-	//private helpers
-	function handleKeyPress(e) {
-		var code = e.keyCode;
-		if (code >= Utils.keyLeft && code <= Utils.keyDown && code != OPPOSITES[previousMovement]) {
-			direction = DIRECTION[code];
-			previousKey = code;
-		}
-	}
 
 	function handlePickup(obj) {
 		if (obj instanceof BodyPart) {

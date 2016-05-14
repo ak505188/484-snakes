@@ -15,45 +15,17 @@ function GameGrid(_width, _height, _difficulty, _speed) {
 	this.update = function() {
 		//todo: in each subfunction, add code to generate viewList and pass in the viewConfig for each obj in a position
 		var viewList = [];
+		var statusList = [];
 		updateWaiting();
-		updateSnakes();
+		updateSnakes(statusList);
 		updateSpawning(viewList);
 		updateGrid(viewList);
 
 		var viewConfig = {
-			//todo: width and height should NOT be sent every frame -- should come from initializer from player 1 and be pushed once from the server code when a new player connects
-			width: width,
-			height: height,
 			viewList: viewList
+			//todo: add playerStatus key somewhere that determines foreground rendering
 		};
 		//todo: push the value to the renderer newConfig for ALL players
-	};
-
-	//todo: remove this entirely
-	this.render = function(ctx, canvasWidth, canvasHeight) {
-		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-		drawBackground(ctx, canvasWidth, canvasHeight);
-
-		var dim = this.getCellDimensions(canvasWidth, canvasHeight);
-		var key;
-		for (key in spawnMap) {
-			if (spawnMap.hasOwnProperty(key)) {
-				spawnMap[key].draw(ctx, dim.width, dim.height);
-			}
-		}
-		for (key in gridMap) {
-			if (gridMap.hasOwnProperty(key)) {
-				gridMap[key].draw(ctx, dim.width, dim.height);
-			}
-		}
-	};
-
-	//todo: move to renderer
-	this.getCellDimensions = function(canvasWidth, canvasHeight) {
-		return {
-			width: canvasWidth / this.getWidth(),
-			height: canvasHeight / this.getHeight()
-		};
 	};
 
 	this.positionToIndex = function(x, y) {
@@ -256,13 +228,6 @@ function GameGrid(_width, _height, _difficulty, _speed) {
 
 
 	//private helpers
-	//todo: remove!
-	function drawBackground(ctx, canvasWidth, canvasHeight) {
-		ctx.strokeStyle = '#000000';
-		ctx.fillStyle = '#aaaaaa';
-		ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-	}
-
 	function updateWaiting() {
 		for (var key in waitMap) {
 			if (waitMap.hasOwnProperty(key)) {
@@ -275,7 +240,8 @@ function GameGrid(_width, _height, _difficulty, _speed) {
 		}
 	}
 
-	function updateSnakes() {
+	function updateSnakes(statusList) {
+		//todo: update status list -- each player's status
 		for (var i = 0; i < snakes.length; i++) {
 			snakes[i].update(gridMap, width, height);
 		}

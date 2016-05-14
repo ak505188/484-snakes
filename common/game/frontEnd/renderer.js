@@ -10,7 +10,11 @@ function Renderer() {
     var ctx = canvas.getContext('2d');
     var newConfig = {};
     var viewList = [];
-    var statusList = [/*todo: put default initial text here to render before game starts */];
+    var statusConfig = {
+        title: '484 Snakes Multiplayer',
+        waiting: 'Waiting for players...'
+    };
+
     var width = 20;
     var height = 20;
     var drawProg = 0;
@@ -49,9 +53,11 @@ function Renderer() {
     //private helpers
     function drawBackground () {
         //todo: draw the bg here
+        ctx.strokeStyle = '#000000';
+        ctx.fillStyle = '#aaaaaa';
+        ctx.fillRect(0, 0, width, height);
     }
 
-    //todo: redo this logic obvi
     function drawObj (viewConfig, cellWidth, cellHeight) {
         if (drawProg % viewConfig.flashTime < viewConfig.flashTime / 2) {
             ctx.fillStyle = viewConfig.color1;
@@ -66,7 +72,7 @@ function Renderer() {
     }
 
     function preRenderUpdate() {
-        statusList = newConfig.statusList;
+        statusConfig = newConfig.statusConfig;
         viewList = newConfig.viewList;
         width = newConfig.width;
         height = newConfig.height;
@@ -74,7 +80,43 @@ function Renderer() {
 
     function drawForeground() {
         //todo: draw the fg here
+        for (var key in statusConfig) {
+            if (statusConfig.hasOwnProperty(key)) {
+                var textConfig;
+                switch (key) {
+                    case 'title':
+                        textConfig = getTitleConfig();
+                        break;
+                    case 'waiting':
+                        textConfig = getWaitingConfig();
+                        break;
+
+                }
+                ctx.font = textConfig.size + 'px Arial';
+                ctx.textAlign = textConfig.align;
+                ctx.fillText(statusConfig[key], textConfig.x, textConfig.y);
+            }
+        }
     }
+
+    function getTitleConfig() {
+        return {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            align: 'center',
+            size: 30
+        };
+    }
+
+    function getWaitingConfig() {
+        return {
+            x: canvas.width / 2,
+            y: canvas.height - (canvas.height / 4),
+            align: 'center',
+            size: 10
+        };
+    }
+
 
     function getCellDimensions() {
         return {

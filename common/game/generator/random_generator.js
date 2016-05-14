@@ -1,11 +1,11 @@
 inherits(StageGenerator, RandomGridGenerator);
 
-function RandomGridGenerator(/*initialConfig*/) {	//todo: pass in initial config (from a player's initializer)
+function RandomGridGenerator(initialConfig) {
 	StageGenerator.call(this,
-		/*initialConfig.difficulty*/ 0,
-		/*initialConfig.speed*/ 6,
-		/*initialConfig.width*/ 20,
-		/*initialConfig.height*/ 20
+		initialConfig.difficulty,
+		initialConfig.speed,
+		initialConfig.width,
+		initialConfig.height
 	);
 
 	/**

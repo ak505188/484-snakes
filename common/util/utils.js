@@ -36,6 +36,20 @@ var Utils = {
         "3": {x: 1/3, y: 1/3, direction: this.keyUp}
     },
 
+    init: function() {
+        this.directions = {};
+        this.directions[Utils.keyLeft] = {x: -1, y: 0};
+        this.directions[Utils.keyUp] = {x: 0, y: -1};
+        this.directions[Utils.keyRight] = {x: 1, y: 0};
+        this.directions[Utils.keyDown] = {x: 0, y: 1};
+
+        this.opposites = {};
+        this.opposites[Utils.keyLeft] = Utils.keyRight;
+        this.opposites[Utils.keyUp] = Utils.keyDown;
+        this.opposites[Utils.keyRight] = Utils.keyLeft;
+        this.opposites[Utils.keyDown] = Utils.keyUp;
+    },
+
 
     addVectors: function(v1, v2) {
         return {
@@ -76,3 +90,4 @@ var Utils = {
         document.dispatchEvent(event);
     }
 };
+Utils.init();

@@ -6,7 +6,8 @@ function Initializer() {
     var initialConfig;
 
     //init
-    (function() {
+    //todo: uncomment all this stuff below once the UI is actually built...
+    /*(function() {
         var modeRadios = document.getElementsByName('mode');    //todo: assuming mode is determined by radios
         for (var i = 0; i < modeRadios.length; i++) {
             var radio = modeRadios[i];
@@ -15,15 +16,15 @@ function Initializer() {
                 break;
             }
         }
-    })();
+    })();*/
 
     //public
     this.createInitialConfig = function() {
-        if (mode === 'random') {
+        //if (mode === 'random') {
             initialConfig = getRandomConfig();
-        } else {
-            initialConfig = getUploadConfig();
-        }
+        //} else {
+        //    initialConfig = getUploadConfig();
+        //}
     };
 
     this.getInitialConfig = function() {
@@ -33,10 +34,10 @@ function Initializer() {
     //private helpers
     function getRandomConfig() {
         return {
-            difficulty: document.getElementById('difficulty'),
-            speed: document.getElementById('speed'),
-            width: document.getElementById('width'),
-            height: document.getElementById('height')
+            difficulty: /*document.getElementById('difficulty')*/0,
+            speed: /*document.getElementById('speed')*/6,
+            width: /*document.getElementById('width')*/20,
+            height: /*document.getElementById('height')*/20
         };
     }
 

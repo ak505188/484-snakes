@@ -14,7 +14,6 @@ function Wanderer(_rep, _spawnTime) {
 
     //constants
     var BASE_DELAY = 10;
-    var FLASH_LIMIT = 4;
     var NEIGHBORS = [
         //{x: -1, y: -1},
         {x: 0, y: -1},
@@ -28,13 +27,13 @@ function Wanderer(_rep, _spawnTime) {
 
     //private fields
     var scope = this;
-    var flashProg = 0;
     var tier = _rep.tier;
     var color;
     var moveDelay;
     var moveProg = 0;
 
     //init
+    //todo: move this before super call or something... need to pass color to superclass
     (function() {
         moveDelay = BASE_DELAY - (tier * 2);
         switch (tier) {
@@ -67,14 +66,6 @@ function Wanderer(_rep, _spawnTime) {
             y: this.getY(),
             tier: this.getTier()
         };
-    };
-
-    this.draw = function(ctx, cellWidth, cellHeight) {
-        ctx.fillStyle = color;
-        if (!this.isSpawning() || flashProg % FLASH_LIMIT < FLASH_LIMIT / 2) {
-            ctx.fillRect(this.getX() * cellWidth, this.getY() * cellHeight, cellWidth, cellHeight);	//todo: move this to generate location... always seems to be the same code...
-        }
-        flashProg++;
     };
 
     this.getTier = function() {

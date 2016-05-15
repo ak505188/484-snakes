@@ -13,22 +13,45 @@
         listLobby(data.currentGames);
         document.getElementById("status").innerHTML = "Total clients connected: " + clients;
       });
+
       function listLobby(currentGames) {
-        var gamesList = '';
+        var gamesList = '<tr>' + '<th colspan="1">Room</th>'
+          + '<th colspan="4">Settings</th>'
+          + '<th colspan="1">Players</th></tr>';
         document.getElementById("lobby").innerHTML = '';
-        for (i in currentGames) {
-          gamesList += gameDiv(currentGames[i]);
-        };
-        document.getElementById("lobby").innerHTML = gamesList;
+        if (Object.keys(currentGames).length !== 0) {
+          for (i in currentGames) {
+            gamesList += gameDiv(currentGames[i]);
+          };
+          document.getElementById("lobby").innerHTML = gamesList;
+        }
       }
+
       function gameDiv(game) {
         var link = '\'/g/' + game.room + '\'';
         var goToRoom = '"window.location.href = ' + link + ';"';
-        var button = '<button onclick=' + goToRoom + '>' + 'Join Game </button>';
-        var div = '<div class="game">'
-          + game.room + ': ' + game.playerCount + button
-          + '</div>';
+        var div = '<tr class="game" onclick=' + goToRoom + '>'
+          + roomNameColumn(game.room)
+          + roomSettingColumn(game.settings)
+          + playerCountColumn(game.playerCount);
+          + '</tr>';
         return div;
+      }
+
+      function roomNameColumn(room) {
+        return '<td>' + room + '</td>';
+      }
+
+      function playerCountColumn(players) {
+        return '<td class="players">' + players + '</td>';
+      }
+
+      function roomSettingColumn(settings) {
+        var height = '<td>' + 'Height: ' + settings.height + '</td>';
+        var width = '<td>' + 'Width: ' + settings.width + '</td>';
+        var speed = '<td>' + 'Speed: ' + settings.speed + '</td>';
+        var gameType = '<td>' + 'Type: ' + (settings.grid === null ? 'Normal' : 'Custom') + '</td>';
+        return height + width + speed + gameType;
       }
     </script>
     <script src="/createRoom.js"></script>
@@ -37,7 +60,7 @@
     <h1>484 Snakes!</h1>
     <div id="status"></div>
     <p>Active Games</p>
-    <div id="lobby"></div>
+    <table id="lobby"></table>
     <form onsubmit="return createRoom(room.value);" action="/g">
       Create Room:
       <input id="room" type="text">

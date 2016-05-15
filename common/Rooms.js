@@ -49,7 +49,7 @@ var Room = function(_settings) {
     speed: 0,
     width: 20,
     height: 20,
-    grid: {}
+    grid: null
   };
   this.players = {};
   this.addNewPlayer = function(address, name, settings) {

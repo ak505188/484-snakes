@@ -14,7 +14,6 @@
         document.getElementById("status").innerHTML = "Total clients connected: " + clients;
       });
       function listLobby(currentGames) {
-        console.log(currentGames);
         var gamesList = '';
         document.getElementById("lobby").innerHTML = '';
         for (i in currentGames) {
@@ -29,7 +28,6 @@
         var div = '<div class="game">'
           + game.room + ': ' + game.playerCount + button
           + '</div>';
-        console.log(div);
         return div;
       }
     </script>

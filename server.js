@@ -27,7 +27,9 @@ function socketServer(io, rooms) {
       }
     });
 
-    // socket.on('start_game', startGame(data, getRoom(socket), io));
+    socket.on('start_game', function(data) {
+      startGame(data, getRoom(socket), io);
+    });
 
     // Update lobby page with total number of people connected
     io.emit('new connection', {

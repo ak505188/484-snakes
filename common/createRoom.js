@@ -5,15 +5,16 @@ function createRoom(room_name) {
     console.log('Invalid name!');
     return false;
   }
+  // Gotta get settings somewhere in here
   sendRequest(room_name);
   return false;
 }
 
-function sendRequest(room_name) {
+function sendRequest(room_name, settings) {
   room = {
     room: room_name,
-    settings: {}
-  }
+    settings: settings
+  };
   httpRequest = new XMLHttpRequest();
   httpRequest.onreadystatechange = handleResponse;
   httpRequest.open('POST', window.location.href + 'g', true);

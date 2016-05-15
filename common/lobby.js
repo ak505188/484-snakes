@@ -55,3 +55,46 @@ function roomSettingColumn(settings) {
   var gameType = '<td>' + 'Type: ' + (settings.grid === null ? 'Normal' : 'Custom') + '</td>';
   return height + width + speed + gameType;
 }
+
+function clickRadio() {
+  document.getElementById('rad').style.display = "block";
+
+  document.getElementById('z').value=Math.floor((Math.random() * 10) + 1);
+  document.getElementById('x').value=Math.floor((Math.random() * 10) + 1);
+  document.getElementById('y').value=Math.floor((Math.random() * 10) + 1);
+  return false;
+}
+
+function one(){
+  var eleDiv = document.getElementById('textp');
+
+  // based on condition you can change visibility
+  if(eleDiv.style.display == "block") {
+    eleDiv.style.display = "none";
+  }
+  else {
+    eleDiv.style.display = "block";
+  }
+}
+
+function two(){
+  var eleDiv2 = document.getElementById('textp2');
+
+  if(eleDiv2.style.display == "block") {
+    eleDiv2.style.display = "none";
+  }
+  else {
+    eleDiv2.style.display = "block";
+  }
+}
+
+function three(){
+  var eleDiv3 = document.getElementById('textp3');
+
+  if(eleDiv3.style.display == "block") {
+    eleDiv3.style.display = "none";
+  }
+  else {
+    eleDiv3.style.display = "block";
+  }
+}

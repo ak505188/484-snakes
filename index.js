@@ -39,6 +39,10 @@ app.get('/g/*', function(req, res) {
   }
 });
 
+app.get('/lobby', function(req, res) {
+  res.sendFile('app/lobbynew.html', { root: global.root_dir });
+});
+
 app.get('/single', function(req, res) {
   res.sendFile('app/singleplayer.html', { root: global.root_dir });
 });

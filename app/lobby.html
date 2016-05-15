@@ -9,11 +9,6 @@
     <script src="lobby.js"></script>
     <script>
       var socket = io.connect();
-      // I made a decision here to only get the gameslist on page load
-      // We can update every time but if we do the table will disappear
-      // and reappear on every change. (This includes things like other
-      // people refreshing the page anywhere on the website)
-      var gotLobbyList = false;
       socket.on('new connection', function(data) {
           handleNewConnection(data);
       });

@@ -17,7 +17,7 @@ function socketServer(io, rooms) {
     });
 
     socket.on('join_room', function(data) {
-      var room = lib.getRoomFromUri(lib.getUriFromSocket(socket));
+      var room = getRoom(socket);
       if (rooms.roomExists(room)) {
 	// add player to room
 	// TODO: remove player on disconnect
@@ -27,8 +27,19 @@ function socketServer(io, rooms) {
       }
     });
 
+    socket.on('game_action', function(data) {
+      var room = getRoom(socket);
+      var action = data.action;
+      var playerKey = client.remoteAddress;
+      rooms.getRoom(room).getPlayer(playerKey).setAction(action);
+    });
+
+    // Don't know if we need data
+    // It's just how sockets pass data
+    // Without it we only get the event but I think that's all we need
     socket.on('start_game', function(data) {
-      startGame(data, getRoom(socket), io);
+      var room = getRoom(socket);
+      startGame(data, room, io.to(room).emit);
     });
 
     // Update lobby page with total number of people connected
@@ -39,8 +50,16 @@ function socketServer(io, rooms) {
   });
 }
 
-function startGame(data, room, io) {
-  // Initialize game state
+function startGame(data, room, emit) {
+  gameController = setInterval(function() {
+    // Game logic here
+    Object.keys(room.getPlayers()).forEach(function(player) {
+      console.log(player.action);
+    });
+    // To emit new data to frontend
+    // Can change event name to whatever just has to match frontend
+    emit('update_game', {});
+  }, 1000);	// 1000 will be changed to the game speed
 }
 
 function getRoom(socket) {

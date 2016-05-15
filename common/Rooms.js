@@ -57,6 +57,14 @@ var Room = function(_settings) {
     this.players[address] = new Player(address, name, settings);
   };
 
+  this.getPlayer = function(address) {
+    return this.players[address];
+  };
+
+  this.getPlayers = function() {
+    return this.players;
+  };
+
   return this;
 };
 
@@ -71,8 +79,11 @@ var Player = function(_address, _name, _settings) {
   this.address = _address;
   this.name = _name ? _name : {};
   this.settings = _settings ? _settings : {};
+  this.action = null;
 
-  this.action = {};
+  this.setAction = function(_action) {
+    this.action = _action;
+  };
 
   return this;
 };

@@ -1,7 +1,16 @@
+// Went halfway and decided to update active games on new room creation
+// That way we can update periodically but it won't reappear on every
+// refresh anyone does on our webapp
+
+// We can update every time but if we do the table will disappear
+// and reappear on every change. (This includes things like other
+// people refreshing the page anywhere on the website)
+var currentGames = [];
+
 function handleNewConnection(data) {
   var clients = data.total_client_count;
-  if (gotLobbyList === false) {
-    gotLobbyList = true;
+  var newCurrentGames = data.currentGames;
+  if (Object.keys(currentGames).length !== Object.keys(newCurrentGames).length) {
     listLobby(data.currentGames);
   }
   document.getElementById("status").innerHTML = "Total clients connected: " + clients;

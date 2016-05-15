@@ -1,6 +1,6 @@
 var lib = require('./common/lib.js');
 
-module.exports = function(io, rooms) {
+function socketServer(io, rooms) {
   io.on('connection', function (socket) {
     // IP & port of client
     // Really useful for keeping track of connected users
@@ -8,7 +8,7 @@ module.exports = function(io, rooms) {
       remoteAddress: socket.request.connection.remoteAddress,
       remotePort: socket.request.connection.remotePort
     };
-    var room = lib.getRoomFromUri(lib.getUriFromSocket(socket));
+    // var room = lib.getRoomFromUri(lib.getUriFromSocket(socket));
 
     // Do stuff on disconnect
     socket.on('disconnect', function() {
@@ -17,6 +17,7 @@ module.exports = function(io, rooms) {
     });
 
     socket.on('join_room', function(data) {
+      var room = lib.getRoomFromUri(lib.getUriFromSocket(socket));
       if (rooms[room] !== undefined) {
 	// add player to room
 	// TODO: remove player on disconnect
@@ -26,10 +27,22 @@ module.exports = function(io, rooms) {
       }
     });
 
+    socket.on('start_game', startGame(data, getRoom(socket), io));
+
     // Update lobby page with total number of people connected
     io.emit('new connection', {
       total_client_count: io.engine.clientsCount,
       currentGames: lib.getCurrentGames(rooms)
     });
   });
-};
+}
+
+function startGame(data, room, io) {
+  // Initialize game state
+}
+
+function getRoom(socket) {
+  return lib.getRoomFromUri(lib.getUriFromSocket(socket));
+}
+
+module.exports = socketServer;

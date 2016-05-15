@@ -21,7 +21,6 @@
     <script type="text/javascript" src="/game/game_object/spawned/wanderer.js" defer></script>
     <script type="text/javascript" src="/game/main.js" defer></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/bundle.js"></script>
     <script>
       var socket = io.connect();
       socket.emit('join_room', {});
@@ -29,10 +28,6 @@
         console.log(data);
         var clients = data.client_count;
         document.getElementById("status").innerHTML = "Clients connected: " + clients;
-      });
-      socket.on('disconnect', function(socket) {
-        console.log('disconnected');
-        socket.emit('room_disconnect', { room: getRoomFromWindow() });
       });
     </script>
   </head>

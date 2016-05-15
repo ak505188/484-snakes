@@ -18,11 +18,11 @@ function socketServer(io, rooms) {
 
     socket.on('join_room', function(data) {
       var room = lib.getRoomFromUri(lib.getUriFromSocket(socket));
-      if (rooms[room] !== undefined) {
+      if (rooms.roomExists(room)) {
 	// add player to room
 	// TODO: remove player on disconnect
 	socket.join(room);
-	rooms[room].players.push(client);
+	rooms.getRoom(room).addNewPlayer(client);
 	io.to(room).emit('status', { client_count: io.sockets.adapter.rooms[room].length });
       }
     });
@@ -34,7 +34,7 @@ function socketServer(io, rooms) {
     // Update lobby page with total number of people connected
     io.emit('new connection', {
       total_client_count: io.engine.clientsCount,
-      currentGames: lib.getCurrentGames(rooms)
+      currentGames: rooms.getCurrentGames(rooms)
     });
   });
 }

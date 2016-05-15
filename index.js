@@ -10,7 +10,7 @@ var port = isDeveloping ? 3000 : process.env.PORT;
 var hostname = process.env.HOSTNAME || '0.0.0.0';
 global.root_dir = __dirname;
 
-var rooms = {};
+var rooms = new require('./common/Rooms.js').Rooms();
 var socketLogic = require('./server')(io, rooms);
 
 // Let our html files use files from /common
@@ -24,14 +24,14 @@ app.get('/', function (req, res) {
 
 // TODO: This route will handle creating a game
 app.post('/g', function(req, res) {
-  var response = lib.createRoom(req.body.room, req.body.settings, rooms);
+  var response = rooms.createRoom(req.body.room, req.body.settings, rooms);
   res.set('Content-Type', 'application/json;charset=UTF-8');
   res.status(200).send(JSON.stringify(response));
 });
 
 app.get('/g/*', function(req, res) {
   var room = (lib.getRoomFromUri(req.url));
-  if (rooms[room] === undefined) {
+  if (!rooms.roomExists(room)) {
     res.sendStatus(404);
     // TODO: Send createGame page
   } else {

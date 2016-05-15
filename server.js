@@ -22,7 +22,7 @@ function socketServer(io, rooms) {
 	// add player to room
 	// TODO: remove player on disconnect
 	socket.join(room);
-	rooms.getRoom(room).addNewPlayer(client);
+	rooms.getRoom(room).addNewPlayer(client.remoteAddress);
 	io.to(room).emit('status', { client_count: io.sockets.adapter.rooms[room].length });
       }
     });

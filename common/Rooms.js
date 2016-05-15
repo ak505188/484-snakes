@@ -54,7 +54,7 @@ var Room = function(_settings) {
   this.players = {};
   this.addNewPlayer = function(address, name, settings) {
     // Want some sort of unique identifier that is not name as key
-    this.players[name] = new Player(address, name, settings);
+    this.players[address] = new Player(address, name, settings);
   };
 
   return this;

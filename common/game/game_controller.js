@@ -16,6 +16,7 @@ function GameController(_initialConfig) {
 		}
 		gen.populateGrid();
 		step = Utils.grid.getStep();
+		Utils.grid.createPellet();
 	})();
 
 
@@ -38,7 +39,8 @@ function GameController(_initialConfig) {
 	};
 
 	this.isUploadMode = function() {
-		return initialConfig != undefined && initialConfig != null;
+		var data = initialConfig.stageData;
+		return data !== undefined && data !== null;
 	};
 
 

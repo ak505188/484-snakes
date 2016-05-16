@@ -1,7 +1,7 @@
 function SelectionCanvas() {
 
     //constant
-    var NUM_OBJECTS = 5;
+    var NUM_OBJECTS = 3;
     var WIDTH = 200;
     var HEIGHT = 50;
 
@@ -27,11 +27,18 @@ function SelectionCanvas() {
         ctx.fillStyle = '#aaaaaa';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         for (var i = 0; i < objects.length; i++) {
-            objects[i].draw(ctx, canvas.width / NUM_OBJECTS, canvas.height);
+            draw(objects[i].getViewConfig());
         }
     };
 
     //private helpers
+    function draw(viewConfig) {
+        var itemWidth = WIDTH / NUM_OBJECTS;
+        ctx.fillStyle = viewConfig.color1;
+        ctx.fillRect(viewConfig.x * itemWidth, 0, itemWidth, canvas.height);
+        ctx.strokeRect(viewConfig.x * itemWidth, 0, itemWidth, canvas.height);
+    }
+
     function addBlock() {
         var rep = getNewLocation();
         objects.push(new Block(rep, 0));

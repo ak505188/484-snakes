@@ -15,6 +15,7 @@ function SpawnedObject(_rep, _type, _classification, _spawnDuration, _color, _fl
                 spawnProg++;
             } else {
                 spawning = false;
+                this.onAfterSpawn();
             }
         }
     };

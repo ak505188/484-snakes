@@ -5,6 +5,7 @@ function StageGenerator(_difficulty, _speed, _height, _width) {
     var height = _height;
     var width = _width;
 
+    debugger;
     Utils.grid = new GameGrid(width, height, difficulty, speed);
 
     //public superclass methods

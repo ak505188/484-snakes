@@ -7,16 +7,25 @@ function BodyPart(_rep) {
         'BodyPart',
         _rep.classification,
         '#b4d310',
-        '#e9fcf4',
+        '#b4d310',
         6
     );
 
     //private fields
     var snake = _rep.snake;
     var lifeNum = 0;
+    var scope = this;
+    var altColor = '#e9fcf4';
+
+    //init
+    (function() {
+        if (scope.isPickup()) {
+            scope.setFlashColor(altColor);
+        }
+    })();
 
     //@Override
-    this.update = function(gridMap, spawnMap, width, height, step) {
+    this.update = function(gridMap, spawnMap, width, height) {
         if (!snake) {
             if (lifeNum >= Utils.grid.getPelletLifeSpan()) {
                 lifeNum = 0;
@@ -28,6 +37,7 @@ function BodyPart(_rep) {
 
     this.joinSnake = function(_snake) {
         snake = _snake;
+        this.setFlashColor('#b4d310');
         this.setClassification(Utils.hazard);
     };
 

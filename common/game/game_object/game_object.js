@@ -75,6 +75,18 @@ function GameObject(_rep, _type, _classification, _color, _flashColor, _flashTim
 		return flashTime;
 	};
 
+	this.setColor = function(_color) {
+		color = _color;
+	};
+
+	this.setFlashColor = function(_flashColor) {
+		flashColor = _flashColor;
+	};
+
+	this.stopFlashing = function() {
+		this.setFlashColor(color);
+	};
+
 	this.getType = function() {
 		return type;
 	};
@@ -87,6 +99,10 @@ function GameObject(_rep, _type, _classification, _color, _flashColor, _flashTim
 			color2: flashColor,
 			flashTime: flashTime
 		};
+	};
+
+	this.onAfterSpawn = function() {
+		this.stopFlashing();
 	};
 
 

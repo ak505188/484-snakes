@@ -7,43 +7,28 @@ function Wanderer(_rep, _spawnTime) {
         'Wanderer',
         Utils.hazard,
         _spawnTime || Utils.spawnTime,
-        '#e3c800' /*todo: need logic for determining color*/,
+        Utils.wandererColors[_rep.tier],
         Utils.noColor,
         Utils.spawnFlashTime
     );
 
     //constants
-    var BASE_DELAY = 10;
+    var BASE_DELAY = 8;
     var NEIGHBORS = [
-        //{x: -1, y: -1},
         {x: 0, y: -1},
-        //{x: 1, y: -1},
         {x: 1, y: 0},
-        //{x: 1, y: 1},
         {x: 0, y: 1},
-        //{x: -1, y: 1},
         {x: -1, y: 0}
     ];
 
     //private fields
     var scope = this;
     var tier = _rep.tier;
-    var color;
     var moveDelay;
     var moveProg = 0;
 
-    //init
-    //todo: move this before super call or something... need to pass color to superclass
     (function() {
-        moveDelay = BASE_DELAY - (tier * 2);
-        switch (tier) {
-            case 0:
-                color = '#e3c800';
-                break;
-            case 1:
-                color = '#b30086';
-                break;
-        }
+        moveDelay = BASE_DELAY - (tier * 3);
     })();
 
     //public
@@ -71,7 +56,6 @@ function Wanderer(_rep, _spawnTime) {
     this.getTier = function() {
         return tier;
     };
-
 
     //private helpers
     function moveToRandomNeighbor() {

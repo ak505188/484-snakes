@@ -18,7 +18,7 @@ function CurrentCanvas() {
     //public
     this.render = function() {
         if (object) {
-            object.draw(ctx, canvas.width, canvas.height);
+            draw(object.getViewConfig());
         } else {
             ctx.fillStyle = 'white';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -28,4 +28,11 @@ function CurrentCanvas() {
     this.setObject = function(obj) {
         object = Utils.clone(obj);
     };
+
+    //private helpers
+    function draw(viewConfig) {
+        ctx.fillStyle = viewConfig.color1;
+        ctx.strokeRect(viewConfig.x, viewConfig.y, canvas.width, canvas.height);
+        ctx.fillRect(viewConfig.x, viewConfig.y, canvas.width, canvas.height);
+    }
 }

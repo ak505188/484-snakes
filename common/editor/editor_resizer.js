@@ -1,16 +1,13 @@
 function EditorResizer() {
 
-    var width = 20;
-    var height = 20;
+    var size = 20;
 
     var grid = Utils.editorGrid;
-    var oldWidth = grid.getWidth();
-    var oldHeight = grid.getHeight();
+    var oldSize = grid.getWidth();
 
     //init
     (function() {
-        width = getValue('width', 5, 100, width);
-        height = getValue('height', 5, 100, height);
+        size = getValue('size', 5, 100, size);
     })();
 
     //public
@@ -23,8 +20,8 @@ function EditorResizer() {
                 newMap[newIndex] = oldMap[key];
             }
         }
-        grid.setWidth(width);
-        grid.setHeight(height);
+        grid.setWidth(size);
+        grid.setHeight(size);
         grid.setGridMap(newMap);
         updateCurrentVisuals();
     };
@@ -46,26 +43,24 @@ function EditorResizer() {
 
     function isIndexIncluded(index) {
         var oldPos = convertIndexToPosition(index);
-        return oldPos.x < width && oldPos.y < height;
+        return oldPos.x < size && oldPos.y < size;
     }
 
     function convertIndex(oldIndex) {
         var oldPos = convertIndexToPosition(oldIndex);
-        return oldPos.y * width + oldPos.x;
+        return oldPos.y * size + oldPos.x;
     }
 
     function convertIndexToPosition(index) {
         return {
-            x: index % oldWidth,
-            y: Math.floor(index / oldHeight)
+            x: index % oldSize,
+            y: Math.floor(index / size)
         };
     }
 
     function updateCurrentVisuals() {
-        var currentWidthEl = document.getElementById('currentWidth');
-        var currentHeightEl = document.getElementById('currentHeight');
-        currentWidthEl.innerHTML = width;
-        currentHeightEl.innerHTML = height;
+        var currentSizeEl = document.getElementById('currentSize');
+        currentSizeEl.innerHTML = size;
     }
 }
 

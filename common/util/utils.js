@@ -2,6 +2,7 @@
 //todo: we may need to split this or have two instances of it because of the separation between front and back end
 
 var Utils = {
+    //todo: do we need to separate FE utils from BE utils?
 
     //global references to components -- terrible
     grid: null,
@@ -13,6 +14,15 @@ var Utils = {
     spawnFlashTime: 4,
     noColor: 'none',
     baseStep: 500,
+
+    //info bar
+    infoBarHeight: 50,
+    infoHorizontalRatios: {
+        length: .2,
+        speed: .4,
+        difficulty: .6,
+        totalSteps: .8
+    },
 
     //keyboard codes
     keyLeft: 37,
@@ -27,13 +37,9 @@ var Utils = {
     //spawn offsets
     wandererOffset: 5,
     fastWandererOffset: 20,
-
-    //starting
-    startingInfo: {
-        "0": {x: 2/3, y: 1/3, direction: this.keyRight},
-        "1": {x: 2/3, y: 2/3, direction: this.keyDown},
-        "2": {x: 1/3, y: 2/3, direction: this.keyLeft},
-        "3": {x: 1/3, y: 1/3, direction: this.keyUp}
+    wandererColors: {
+        '0': '#e3c800',
+        '1': '#b30086'
     },
 
     init: function() {
@@ -48,6 +54,14 @@ var Utils = {
         this.opposites[Utils.keyUp] = Utils.keyDown;
         this.opposites[Utils.keyRight] = Utils.keyLeft;
         this.opposites[Utils.keyDown] = Utils.keyUp;
+
+        //starting
+        this.startingInfo = {
+            "0": {x: 2/3, y: 1/3, direction: Utils.keyRight},
+            "1": {x: 2/3, y: 2/3, direction: Utils.keyDown},
+            "2": {x: 1/3, y: 2/3, direction: Utils.keyLeft},
+            "3": {x: 1/3, y: 1/3, direction: Utils.keyUp}
+        };
     },
 
 

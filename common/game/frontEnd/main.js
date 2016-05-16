@@ -7,10 +7,14 @@
 
     //todo: for everyone
     var listener = new Listener();
-    var renderer = new Renderer();
+    var renderer = new GameRenderer('game');
     var drawInterval = setInterval(function() {
         renderer.render();
     }, 10);
 
     //todo: on close or something, clear the interval
+
+    //todo: temp -- for now until theres a single/multi controller
+    Utils.tempListener = listener;
+    Utils.tempRenderer = renderer;
 })();

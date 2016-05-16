@@ -23,9 +23,16 @@
     <script type="text/javascript" src="/editor/export_generator.js" defer></script>
     <script type="text/javascript" src="/editor/editor_resizer.js" defer></script>
     <script type="text/javascript" src="/editor/current_canvas.js" defer></script>
+    <script type="text/javascript" src="/game/frontEnd/initializer.js" defer></script>
+    <script type="text/javascript" src="/game/frontEnd/listener.js" defer></script>
+    <script type="text/javascript" src="/game/frontEnd/view/renderer.js" defer></script>
+    <script type="text/javascript" src="/game/frontEnd/view/game_renderer.js" defer></script>
+    <script type="text/javascript" src="/game/frontEnd/view/editor_renderer.js" defer></script>
+    <script type="text/javascript" src="/game/frontEnd/view/text_writer.js" defer></script>
     <script type="text/javascript" src="/editor/main.js" defer></script>
 </head>
 <body>
+    <h1>Edit Mode</h1>
     <div id="editorBody">
         <form>
             <fieldset>
@@ -39,17 +46,14 @@
         <form>
             <fieldset>
                 <legend>Change Dimensions</legend>
-                <label>Width (5 - 100):</label>
-                <input id="width" type="number" min="5" max="100"/><br/>
-                <label>Height (5 - 100):</label>
-                <input id="height" type="number" min="5" max="100"/><br/>
+                <label>Size (5 - 100):</label>
+                <input id="size" type="number" min="5" max="100"/><br/>
                 <input type="submit" value="Update" onclick="doResize(event)"/>
             </fieldset>
         </form>
         <div>
             <canvas id="selection"></canvas>
-            <span>Current Width: <span id="currentWidth">20</span></span>
-            <span>Current Height: <span id="currentHeight">20</span></span>
+            <span>Current Size: <span id="currentSize">20</span></span>
         </div>
         <div>
             <canvas id="editor"></canvas>

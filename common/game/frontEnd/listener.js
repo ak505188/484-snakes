@@ -4,7 +4,7 @@ function Listener() {
     //todo: back end will query the listener for each player at the beginning of its step to get the current movement state of each player
 
     //private fields
-    var keyCode = '';
+    var keyCode = -1;
 
     //init
     (function() {

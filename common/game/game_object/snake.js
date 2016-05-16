@@ -11,15 +11,14 @@ function Snake(_rep) {
 	var length = _rep.defaultLength || 1;
 	var bodyParts = new Queue();
 	var dead = false;
+	var totalSteps = 0;
 
 	var playerNum = _rep.playerNum || 0;
 	var startingConfig = Utils.startingInfo[playerNum];
-	var direction = startingConfig.direction;
-	var previousMovement = direction;
+	var direction = Utils.directions[startingConfig.direction];
 
 	//init code
 	(function() {
-		Utils.grid.createPellet();
 		for (var i = length - 1; i >= 0; i--) {
 			var rep = {
 				x: scope.getX() - i,	//todo: calc location based on direction
@@ -42,6 +41,27 @@ function Snake(_rep) {
 		return dead;
 	};
 
+	this.getStatus = function() {
+		return {
+			dead: dead,
+			length: length,
+			speed: Utils.grid.getSpeed(),
+			difficulty: Utils.grid.getDifficulty(),
+			totalSteps: totalSteps
+		};
+	};
+
+	this.updateDirection = function(keyCode) {
+		if (keyCode > 0) {
+			var requestedDirection = Utils.directions[keyCode];
+			var oppositeKey = Utils.opposites[keyCode];
+			var oppositeDirection = Utils.directions[oppositeKey];
+			if (direction.x !== oppositeDirection.x || direction.y !== oppositeDirection.y) {
+				direction = requestedDirection;
+			}
+		}
+	};
+
 	//@Override
 	this.update = function(gridMap, spawnMap, width, height) {
 		if (!dead) {
@@ -58,6 +78,7 @@ function Snake(_rep) {
 				bodyParts.enqueue(tail);
 				Utils.grid.moveTo(tail, newPosition);
 				this.translate(direction);
+				totalSteps++;
 			}
 		} else {
 			//game over or something...
@@ -73,6 +94,7 @@ function Snake(_rep) {
 			bodyParts.push(obj);
 			Utils.grid.createPellet();
 			Utils.grid.increaseDifficulty();
+			length++;
 		}
 	}
 }

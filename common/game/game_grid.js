@@ -1,4 +1,4 @@
-function GameGrid(_width, _height, _difficulty, _speed) {
+function GameGrid(_width, _height, _difficulty, _speed/*, clientController*/) {
 	var scope = this;	//allows private context to access public scope
 	var width = _width;
 	var height = _height;
@@ -6,26 +6,43 @@ function GameGrid(_width, _height, _difficulty, _speed) {
 	var speed = _speed;
 	var step = calculateStep();
 
-	var gridMap = {};	//map grid of game objects
+	var gridMap = {};	//map grid of game  objects
 	var snakes = [];
 	var spawnMap = {};
 	var waitMap = {};
 
+	//init
+	(function() {
+		//todo: temp -- call single/multi controller to set renderer dimensions for each player
+		if (Utils.tempRenderer) {
+			Utils.tempRenderer.setDimensions({
+				width: width,
+				height: height
+			});
+		}
+	})();
+
 	//public
 	this.update = function() {
-		//todo: in each subfunction, add code to generate viewList and pass in the viewConfig for each obj in a position
+		//todo: temp: instead, use a single/multi controller to grab
+		var keyCodes = [];
+		keyCodes.push(Utils.tempListener.getKeyCode());
+
 		var viewList = [];
 		var statusList = [];
+
 		updateWaiting();
-		updateSnakes(statusList);
+		updateSnakes(keyCodes, statusList);
 		updateSpawning(viewList);
 		updateGrid(viewList);
 
-		var viewConfig = {
-			viewList: viewList
-			//todo: add playerStatus key somewhere that determines foreground rendering
-		};
 		//todo: push the value to the renderer newConfig for ALL players
+		//todo: temp code - the single/multi controller will do this
+		var viewConfig = {
+			viewList: viewList,
+			statusConfig: statusList[0]
+		};
+		Utils.tempRenderer.updateView(viewConfig);
 	};
 
 	this.positionToIndex = function(x, y) {
@@ -99,7 +116,7 @@ function GameGrid(_width, _height, _difficulty, _speed) {
 
 	this.setWidth = function(_width) {
 		width = _width;
-	}
+	};
 
 	this.getHeight = function() {
 		return height;
@@ -203,6 +220,10 @@ function GameGrid(_width, _height, _difficulty, _speed) {
 		Utils.controller.restart();
 	};
 
+	this.getDifficulty = function() {
+		return difficulty;
+	};
+
 	this.isOutOfBounds = function(position) {
 		return position.x < 0 ||
 			position.y < 0 ||
@@ -220,7 +241,7 @@ function GameGrid(_width, _height, _difficulty, _speed) {
 
 	this.setGridMap = function(_gridMap) {
 		gridMap = _gridMap;
-	}
+	};
 
 	this.getSpeed = function() {
 		return speed;
@@ -240,10 +261,13 @@ function GameGrid(_width, _height, _difficulty, _speed) {
 		}
 	}
 
-	function updateSnakes(statusList) {
+	function updateSnakes(keyCodes, statusList) {
 		//todo: update status list -- each player's status
 		for (var i = 0; i < snakes.length; i++) {
-			snakes[i].update(gridMap, width, height);
+			var snake = snakes[i];
+			snake.updateDirection(keyCodes[i]);
+			snake.update(gridMap, spawnMap, width, height);
+			statusList.push(snake.getStatus());
 		}
 	}
 

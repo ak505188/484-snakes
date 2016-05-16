@@ -74,40 +74,48 @@ function clickRandom() {
     width: Math.floor((Math.random() * 10) + 1),
     height: Math.floor((Math.random() * 10) + 1)
   });
+  localStorage.mode = "Random";
 }
 
 function clickUpload() {
   document.getElementById('savedGames').style.display = 'none';
+  localStorage.mode = "Custom";
   // Need to actually handle upload here
   console.log('Handle upload');
 }
 
 function clickSaved() {
   document.getElementById('savedGames').style.display = 'block';
+  localStorage.mode = "Custom";
 }
 
 function generateSelectForSaved() {
   var games = JSON.parse(localStorage.levels);
 
   var selectDiv = '<select id="saved" onchange="selectGame(this)"">';
-  selectDiv += '<option value="null">--</option>';
+  selectDiv += '<option>--</option>';
 
   if (localStorage.levels !== undefined) {
     Object.keys(games).forEach(function(game) {
-      selectDiv += '<option value="' + game + '" ' + 
-        'onclick="selectGame()">' + game + 
+      selectDiv += '<option value="' + game + '" ' +
+        'onclick="selectGame()">' + game +
         '</option>';
     });
   }
   selectDiv += '</select>';
-  
+
   document.getElementById('savedGames').innerHTML = selectDiv;
   document.getElementById('savedGames').style.display = 'none';
 }
 
 function selectGame(context) {
-  localStorage.currentLevel = context.value === null ? defaultLevel : 
-    JSON.stringify(JSON.parse(localStorage.levels)[context.value]);
+   if(context.value === '--') {
+     localStorage.currentLevel = defaultLevel;
+     localStorage.mode = "Default";
+   } else {
+     localStorage.currentLevel = JSON.stringify(JSON.parse(localStorage.levels)[context.value]);
+     localStorage.mode = "Custom";
+   }
 }
 
 function toggleSingleplayer(){
@@ -138,4 +146,5 @@ function toggleMultiplayer(){
 window.onload = function() {
   generateSelectForSaved();
   localStorage.currentLevel = defaultLevel;
+  localStorage.mode = "Default";
 };

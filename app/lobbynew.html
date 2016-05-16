@@ -3,52 +3,59 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>JS Bin</title>
+    <title>484 Snakes</title>
     <script src="/lobby.js"></script>
-    <link rel="stylesheet" type="text/css" href="/styles/newlobby.css">
+    <link rel="stylesheet" type="text/css" href="/styles/lobby.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect();
+      socket.on('new connection', function(data) {
+          handleNewConnection(data);
+      });
+    </script>
+    <script src="/createRoom.js"></script>
   </head>
   <body>
     <div class="text"><h1> 484 Snakes </h1></div>
-    <div class="divcss5-left">
-      <input name="submit" class="modeButton" type="image" value="ee" src="/images/singleplayer.png" onclick="one()"/></div>
-    <div class="divcss5-right">
-      <input name="submit" class="modeButton" type="image" value="ee" src="/images/multiplayer.png" onclick="two()" /></div>
-    <div class="clear"></div>
-    <div id="textp" style="display:none" >
-      <div class="text"><h3>Single player</h3></div><br>
-      <div class="text"><label><input name="Fruit" type="radio" value="" onclick="clickRadio()"/>Random </label> &nbsp;&nbsp;
-        <label><input name="Fruit" type="radio" value="" />upload </label> </div>
-      <br>
-      <div id="rad" style="display:none" >
-        <div class="text2">
-          <div class="textp">
-            <div class="text1">
-              <label >Difficulty</label><input id="z" type="number"  min="1"/> </div>
-          </div>
-          <br>
-          <div class="text1">
-            <label  >Width</label><input id="x" type="number"  min="1" /> </div>
+    <div id="buttons">
+      <input name="submit" class="modeButton" id="left" type="image"
+        src="/images/singleplayer.png" onclick="toggleSingleplayer()"/><br>
+
+      <div id="singleplayer" style="display:none">
+        <div class="text">
+          <label>
+            <input name="Fruit" type="radio" onclick="clickRandom()" value="random"/>Random
+          </label> &nbsp;&nbsp;
+          <label>
+            <input name="Fruit" type="radio" onclick="clickUpload()" value="upload"/>Upload
+          </label>
+          <label>
+            <input name="Fruit" type="radio" onclick="clickSaved()" value="upload"/>Saved
+          </label>
+        </div><br>
+        <div id="savedGames"></div>
+      </div><br>
+
+      <input name="submit" class="modeButton" id="right" type="image"
+        src="/images/multiplayer.png" onclick="toggleMultiplayer()"/>
+      
+      <div id="multiplayer" style="display:none">
+        <div class="text">
+          <button type="button" onclick="toggleCreateGame()">Create match</button>
+          &nbsp;&nbsp;
+          <button type="button" onclick="alert('Hello world!')">Join match</button>
         </div>
-        <br>
-        <div class="text2">
-          <label>Length</label><input id="y" type="number"  min="1" /> </div>
+        <div class="text" id="createGame" style="display:none">
+          <label>UserName</label>
+            &nbsp;
+          <input id="v" type="text"/>
+        </div><br>
+        <table id="lobby" align="center"></table>
       </div>
     </div>
-    <br>
 
-    <div id="textp2" style="display:none">
-      <div class="text"><h3>Multiplayer</h3></div>
-      <br>
-      <div class="text"><button type="button" onclick="three()">Create match</button> &nbsp;&nbsp;
-        <button type="button" onclick="alert('Hello world!')">Join match</button></div>
-      </br>
-      <div class="text" id="textp3" style="display:none">  <label>UserName</label>&nbsp;<input id="v" type="text"/></div>
-    </br>
-
-
-    </div>
-    <br>
-
-    <div class="text" ><input name="submit" type="image" value="ee" src="/images/startbutton.png" /></div>
+      <div class="text">
+        <input name="submit" type="image" src="/images/startbutton.png"/>
+      </div>
   </body>
 </html>

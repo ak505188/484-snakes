@@ -14,29 +14,22 @@ button {
 	text-align:center;
 }
 
-.text1 {
-	text-align:start;
+.multiplayer {
+	text-align:center;
 }
 
-
-.text2 {
-	width:150px;
-	margin:0 auto;
-}
-
-.divcss5-left {
-	margin-left: 10%;
-	float:left;
-
-}
-.divcss5-right {
-	float:right;
-	margin-right: 10%;
+#buttons {
+	text-align: center;
+	margin: 0 auto;
 }
 
 .modeButton {
-	size: 100vh;
+	box-sizing: border-box;
+	width: 620px;
+	min-width: 310px;
+	max-width: 100%;
+	height: auto;
 
-.clear {
-	clear:both;
+	padding-left: 5%;
+	padding-right: 5%;
 }

@@ -13,7 +13,7 @@ function handleNewConnection(data) {
   if (Object.keys(currentGames).length !== Object.keys(newCurrentGames).length) {
     listLobby(data.currentGames);
   }
-  document.getElementById("status").innerHTML = "Total clients connected: " + clients;
+  // document.getElementById("status").innerHTML = "Total clients connected: " + clients;
 }
 
 function listLobby(currentGames) {
@@ -56,17 +56,42 @@ function roomSettingColumn(settings) {
   return height + width + speed + gameType;
 }
 
-function clickRadio() {
-  document.getElementById('rad').style.display = "block";
-
-  document.getElementById('z').value=Math.floor((Math.random() * 10) + 1);
-  document.getElementById('x').value=Math.floor((Math.random() * 10) + 1);
-  document.getElementById('y').value=Math.floor((Math.random() * 10) + 1);
-  return false;
+function clickRandom() {
+  document.getElementById('savedGames').style.display = "none";
+  // Need logic here maybe?
 }
 
-function one(){
-  var eleDiv = document.getElementById('textp');
+function clickUpload() {
+  document.getElementById('savedGames').style.display = "none";
+  // Need to actually handle upload here
+  console.log('Handle upload');
+}
+
+function clickSaved() {
+  document.getElementById('savedGames').style.display = "block";
+}
+
+function generateSelectForSaved() {
+  var games = JSON.parse(localStorage.levels);
+
+  var selectDiv = '<select id="saved">';
+  selectDiv += '<option value="null">--</option>';
+
+  if (localStorage.levels !== undefined) {
+    Object.keys(games).forEach(function(game) {
+      selectDiv += '<option value="' +
+        game + '">' + game + 
+        '</option>';
+    });
+  }
+  selectDiv += '</select>';
+  
+  document.getElementById('savedGames').innerHTML = selectDiv;
+  document.getElementById('savedGames').style.display = "none";
+}
+
+function toggleSingleplayer(){
+  var eleDiv = document.getElementById('singleplayer');
 
   // based on condition you can change visibility
   if(eleDiv.style.display == "block") {
@@ -77,8 +102,8 @@ function one(){
   }
 }
 
-function two(){
-  var eleDiv2 = document.getElementById('textp2');
+function toggleMultiplayer(){
+  var eleDiv2 = document.getElementById('multiplayer');
 
   if(eleDiv2.style.display == "block") {
     eleDiv2.style.display = "none";
@@ -88,8 +113,8 @@ function two(){
   }
 }
 
-function three(){
-  var eleDiv3 = document.getElementById('textp3');
+function toggleCreateGame(){
+  var eleDiv3 = document.getElementById('createGame');
 
   if(eleDiv3.style.display == "block") {
     eleDiv3.style.display = "none";
@@ -98,3 +123,7 @@ function three(){
     eleDiv3.style.display = "block";
   }
 }
+
+window.onload = function() {
+  generateSelectForSaved();
+};

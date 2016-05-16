@@ -14,7 +14,7 @@ function Initializer() {
 
     //public
     this.createInitialConfig = function() {
-        //if (mode === 'random') {
+        //if (mode === 'Random') {
             initialConfig = getRandomConfig();
         //} else {
         //    initialConfig = getUploadConfig();

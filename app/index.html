@@ -18,7 +18,7 @@
   <body>
     <div class="text"><h1> 484 Snakes </h1></div>
     <div id="buttons">
-      <input name="submit" class="modeButton" id="left" type="image"
+      <input name="submit" class="modeButton" type="image"
         src="/images/singleplayer.png" onclick="toggleSingleplayer()"/><br>
 
       <div id="singleplayer" style="display:none">
@@ -39,7 +39,7 @@
         <div id="savedGames"></div>
       </div><br>
 
-      <input name="submit" class="modeButton" id="right" type="image"
+      <input name="submit" class="modeButton" type="image"
         src="/images/multiplayer.png" onclick="toggleMultiplayer()"/>
       
       <div id="multiplayer" style="display:none">
@@ -47,7 +47,7 @@
           <div class="text">
             Game Name&nbsp;<input id="roomName" type="text"/>
             <label>
-              <input name="Fruit" type="radio" onclick="clickRandom()" value="default"/>Default
+              <input name="Fruit" type="radio" onclick="clickDefault()" value="default" clicked />Default
             </label> &nbsp;&nbsp;
             <label>
               <input name="Fruit" type="radio" onclick="clickRandom()" value="random"/>Random
@@ -63,13 +63,17 @@
               Create match
             </button>
           </div><br>
-        <div id="savedGames"></div>
-      </div>
-      <table id="lobby" align="center"></table>
+          <div id="savedGames"></div>
+        </div>
+        <table id="lobby" align="center"></table>
+      </div><br><br>
+
+      <input name="submit" class="modeButton" type="image"
+        src="/images/editor.png" onclick="window.location.href='/edit'"/><br>
     </div>
     
-    <div class="text">
-      <input id="start" name="submit" type="image" src="/images/startbutton.png"/>
-    </div>
+  <div class="text">
+    <input id="start" name="submit" type="image" src="/images/startbutton.png"/>
+  </div>
   </body>
 </html>

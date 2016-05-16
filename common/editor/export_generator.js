@@ -44,7 +44,7 @@ function ExportGenerator(_gridMap) {
         element.click();
 
         document.body.removeChild(element);
-    }
+    };
 }
 
 function doExport() {
@@ -52,4 +52,16 @@ function doExport() {
     var filename = (document.getElementById('title').value || 'My_Stage') + '.json';
     var exp = new ExportGenerator(gridMap);
     exp.generateJSONFile(filename);
+}
+
+function doSave() {
+    var gridMap = Utils.editorGrid.getGridMap();
+    var key = (document.getElementById('title').value || 'My_Stage');
+    var exp = new ExportGenerator(gridMap);
+    var level = exp.generateJSONStr();
+
+    // Apparently localStorage only uses strings so have to convert to JSON when handling
+    var levels = localStorage.levels === undefined ? {} : JSON.parse(localStorage.levels);
+    levels[key] = level;
+    localStorage.levels = JSON.stringify(levels);
 }

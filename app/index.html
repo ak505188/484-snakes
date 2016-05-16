@@ -1,20 +1,75 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset=utf-8>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Snake Online!</title>
+    <title>484 Snakes</title>
+    <script src="/lobby.js"></script>
+    <link rel="stylesheet" type="text/css" href="/styles/lobby.css">
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = io.connect();
-      socket.on('news', function (data) {
-        console.log(data);
-        socket.emit('my other event', { my: 'data' });
+      socket.on('new connection', function(data) {
+          handleNewConnection(data);
       });
     </script>
+    <script src="/createRoom.js"></script>
   </head>
   <body>
-    <h1>484 Snakes!</h1>
-    <p>This will be our landing page</p>
+    <div class="text"><h1> 484 Snakes </h1></div>
+    <div id="buttons">
+      <input name="submit" class="modeButton" id="left" type="image"
+        src="/images/singleplayer.png" onclick="toggleSingleplayer()"/><br>
+
+      <div id="singleplayer" style="display:none">
+        <div class="text">
+          <label>
+            <input name="Fruit" type="radio" onclick="clickDefault()" value="default"/>Default
+          </label> &nbsp;&nbsp;
+          <label>
+            <input name="Fruit" type="radio" onclick="clickRandom()" value="random"/>Random
+          </label> &nbsp;&nbsp;
+          <label>
+            <input name="Fruit" type="radio" onclick="clickUpload()" value="upload"/>Upload
+          </label> &nbsp;&nbsp;
+          <label>
+            <input name="Fruit" type="radio" onclick="clickSaved()" value="upload"/>Saved
+          </label>
+        </div><br>
+        <div id="savedGames"></div>
+      </div><br>
+
+      <input name="submit" class="modeButton" id="right" type="image"
+        src="/images/multiplayer.png" onclick="toggleMultiplayer()"/>
+      
+      <div id="multiplayer" style="display:none">
+        <div id="multiplayerModes">
+          <div class="text">
+            Game Name&nbsp;<input id="roomName" type="text"/>
+            <label>
+              <input name="Fruit" type="radio" onclick="clickRandom()" value="default"/>Default
+            </label> &nbsp;&nbsp;
+            <label>
+              <input name="Fruit" type="radio" onclick="clickRandom()" value="random"/>Random
+            </label> &nbsp;&nbsp;
+            <label>
+              <input name="Fruit" type="radio" onclick="clickUpload()" value="upload"/>Upload
+            </label> &nbsp;&nbsp;
+            <label>
+              <input name="Fruit" type="radio" onclick="clickSaved()" value="upload"/>Saved
+            </label> &nbsp;&nbsp;
+            <button type="button" 
+              onclick="createRoom(document.getElementById('roomName').value)">
+              Create match
+            </button>
+          </div><br>
+        <div id="savedGames"></div>
+      </div>
+      <table id="lobby" align="center"></table>
+    </div>
+    
+    <div class="text">
+      <input id="start" name="submit" type="image" src="/images/startbutton.png"/>
+    </div>
   </body>
 </html>

@@ -19,7 +19,7 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 app.get('/', function (req, res) {
-  res.sendFile('app/lobby.html', { root: global.root_dir });
+  res.sendFile('app/index.html', { root: global.root_dir });
 });
 
 // TODO: This route will handle creating a game
@@ -37,10 +37,6 @@ app.get('/g/*', function(req, res) {
   } else {
     res.sendFile('app/multiplayer.html', { root: global.root_dir });
   }
-});
-
-app.get('/lobby', function(req, res) {
-  res.sendFile('app/lobbynew.html', { root: global.root_dir });
 });
 
 app.get('/single', function(req, res) {

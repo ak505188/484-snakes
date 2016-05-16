@@ -17,8 +17,10 @@ var defaultLevel = {
 function handleNewConnection(data) {
   var clients = data.total_client_count;
   var newCurrentGames = data.currentGames;
-  if (Object.keys(currentGames).length !== Object.keys(newCurrentGames).length) {
-    listLobby(data.currentGames);
+  if (newCurrentGames !== undefined) {
+    if (Object.keys(currentGames).length !== Object.keys(newCurrentGames).length) {
+      listLobby(data.currentGames);
+    }
   }
   document.getElementById("status").innerHTML = "Total clients connected: " + clients;
 }

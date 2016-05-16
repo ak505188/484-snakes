@@ -16,7 +16,10 @@
     <script src="/createRoom.js"></script>
   </head>
   <body>
-    <div class="text"><h1> 484 Snakes </h1></div>
+    <div class="text">
+      <h1>484 Snakes</h1>
+      <h2 id="status"></h2>
+    </div>
     <div id="buttons">
       <input name="submit" class="modeButton" type="image"
         src="/images/singleplayer.png" onclick="toggleSingleplayer()"/><br>
@@ -24,16 +27,16 @@
       <div id="singleplayer" style="display:none">
         <div class="text">
           <label>
-            <input name="Fruit" type="radio" onclick="clickDefault()" value="default"/>Default
+            <input name="Fruit" type="radio" onclick="clickDefault()" checked="checked" />Default
           </label> &nbsp;&nbsp;
           <label>
-            <input name="Fruit" type="radio" onclick="clickRandom()" value="random"/>Random
+            <input name="Fruit" type="radio" onclick="clickRandom()" />Random
           </label> &nbsp;&nbsp;
           <label>
-            <input name="Fruit" type="radio" onclick="clickUpload()" value="upload"/>Upload
+            <input name="Fruit" type="radio" onclick="clickUpload()" />Upload
           </label> &nbsp;&nbsp;
           <label>
-            <input name="Fruit" type="radio" onclick="clickSaved()" value="upload"/>Saved
+            <input name="Fruit" type="radio" onclick="clickSaved()" />Saved
           </label>
         </div><br>
         <div id="savedGames"></div>
@@ -47,16 +50,16 @@
           <div class="text">
             Game Name&nbsp;<input id="roomName" type="text"/>
             <label>
-              <input name="Fruit" type="radio" onclick="clickDefault()" value="default" clicked />Default
+              <input name="Fruit" type="radio" onclick="clickDefault()" checked="checked" />Default
             </label> &nbsp;&nbsp;
             <label>
-              <input name="Fruit" type="radio" onclick="clickRandom()" value="random"/>Random
+              <input name="Fruit" type="radio" onclick="clickRandom()" />Random
             </label> &nbsp;&nbsp;
             <label>
-              <input name="Fruit" type="radio" onclick="clickUpload()" value="upload"/>Upload
+              <input name="Fruit" type="radio" onclick="clickUpload()" />Upload
             </label> &nbsp;&nbsp;
             <label>
-              <input name="Fruit" type="radio" onclick="clickSaved()" value="upload"/>Saved
+              <input name="Fruit" type="radio" onclick="clickSaved()" />Saved
             </label> &nbsp;&nbsp;
             <button type="button" 
               onclick="createRoom(document.getElementById('roomName').value)">
@@ -73,7 +76,8 @@
     </div>
     
   <div class="text">
-    <input id="start" name="submit" type="image" src="/images/startbutton.png"/>
+    <input id="start" name="submit" type="image" src="/images/startbutton.png"
+      onclick="window.location.href='/single'"/>
   </div>
   </body>
 </html>

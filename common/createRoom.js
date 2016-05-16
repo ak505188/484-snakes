@@ -2,7 +2,7 @@ function createRoom(room_name) {
   var nameIsValid = /^[A-Za-z0-9]*$/;
   room_name = room_name.trim();
   if (!nameIsValid.test(room_name) || room_name === '') {
-    console.log('Invalid name!');
+    alert('Invalid name!');
     return false;
   }
   // Gotta get settings somewhere in here
@@ -19,7 +19,7 @@ function sendRequest(room_name, settings) {
   httpRequest.onreadystatechange = handleResponse;
   httpRequest.open('POST', window.location.href + 'g', true);
   httpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  httpRequest.send(JSON.stringify(room));
+  httpRequest.send(JSON.stringify(room, JSON.parse(localStorage.currentLevel)));
 }
 
 function handleResponse() {
@@ -28,11 +28,11 @@ function handleResponse() {
     if (httpRequest.status === 200) {
       var response = JSON.parse(httpRequest.responseText);
       if (response.exists) {
-	// If the room already exists. Decide what to do here.
-	console.log('Game already exists!');
+        // If the room already exists. Decide what to do here.
+        alert('Game already exists!');
       } else {
-	// Redirect to game.
-	// Below line will make back button skip lobby page
+        // Redirect to game.
+        // Below line will make back button skip lobby page
         // window.location.replace(window.location.href + 'g/' + response.room_name);
         window.location.href = (window.location.href + 'g/' + response.room_name);
       }

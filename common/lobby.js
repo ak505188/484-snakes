@@ -7,12 +7,12 @@
 // people refreshing the page anywhere on the website)
 var currentGames = [];
 var copiedHTML = [];
-var defaultLevel = JSON.stringify({
+var defaultLevel = {
   speed: 5,
   grid: {},
   width: 20,
   height: 20
-});
+};
 
 function handleNewConnection(data) {
   var clients = data.total_client_count;
@@ -97,12 +97,11 @@ function hideSavedSelect() {
 }
 
 function generateSelectForSaved() {
-  var games = JSON.parse(localStorage.levels);
-
   var selectDiv = '<select id="saved" onchange="selectGame(this)"">';
   selectDiv += '<option>--</option>';
 
   if (localStorage.levels !== undefined) {
+    var games = JSON.parse(localStorage.levels);
     Object.keys(games).forEach(function(game) {
       selectDiv += '<option value="' + game + '" ' +
         'onclick="selectGame()">' + game +
@@ -133,7 +132,7 @@ function clearCopiedHTML() {
 
 function selectGame(context) {
    if(context.value === '--') {
-     localStorage.currentLevel = defaultLevel;
+     localStorage.currentLevel = JSON.stringify(defaultLevel);
      localStorage.mode = "Default";
    } else {
      localStorage.currentLevel = JSON.stringify(JSON.parse(localStorage.levels)[context.value]);
@@ -201,6 +200,6 @@ function storeRandomConfig() {
 
 window.onload = function() {
   generateSelectForSaved();
-  localStorage.currentLevel = defaultLevel;
+  localStorage.currentLevel = JSON.stringify(defaultLevel);
   localStorage.mode = "Default";
 };

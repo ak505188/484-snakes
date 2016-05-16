@@ -1,0 +1,8 @@
+.title-text {
+    font-family: museo_sans_700,Verdana,Tahoma,"DejaVu Sans",sans-serif;
+    text-shadow: #000 2px 2px 0;
+    color: white;
+    background-color: #d00d2d;
+    padding: 3px;
+    border-bottom: solid 3px black;
+}

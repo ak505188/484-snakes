@@ -1,0 +1,8 @@
+.size-text {
+    font-family: sans-serif;
+    color: white;
+    border-bottom: 1px solid black;
+    text-shadow: #000 2px 2px 0;
+    background-color: #d00d2d;
+    margin-left: 160px;
+}

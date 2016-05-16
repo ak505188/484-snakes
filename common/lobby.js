@@ -63,12 +63,14 @@ function roomSettingColumn(settings) {
 }
 
 function clickDefault() {
-  document.getElementById('savedGames').style.display = 'none';
+  document.getElementById('savedGamesSingle').style.display = 'none';
+  document.getElementById('savedGamesMulti').style.display = 'none';
   localStorage.currentLevel = JSON.stringify(defaultLevel);
 }
 
 function clickRandom() {
-  document.getElementById('savedGames').style.display = 'none';
+  document.getElementById('savedGamesSingle').style.display = 'none';
+  document.getElementById('savedGamesMulti').style.display = 'none';
   localStorage.currentLevel = JSON.stringify({
     speed: Math.floor((Math.random() * 10) + 1),
     width: Math.floor((Math.random() * 10) + 1),
@@ -78,14 +80,15 @@ function clickRandom() {
 }
 
 function clickUpload() {
-  document.getElementById('savedGames').style.display = 'none';
+  document.getElementById('savedGamesSingle').style.display = 'none';
+  document.getElementById('savedGamesMulti').style.display = 'none';
   localStorage.mode = "Custom";
   // Need to actually handle upload here
-  console.log('Handle upload');
+  alert('Upload not supported yet!');
 }
 
-function clickSaved() {
-  document.getElementById('savedGames').style.display = 'block';
+function clickSaved(id) {
+  document.getElementById(id).style.display = 'block';
   localStorage.mode = "Custom";
 }
 
@@ -104,8 +107,10 @@ function generateSelectForSaved() {
   }
   selectDiv += '</select>';
 
-  document.getElementById('savedGames').innerHTML = selectDiv;
-  document.getElementById('savedGames').style.display = 'none';
+  document.getElementById('savedGamesSingle').innerHTML = selectDiv;
+  document.getElementById('savedGamesSingle').style.display = 'none';
+  document.getElementById('savedGamesMulti').innerHTML = selectDiv;
+  document.getElementById('savedGamesMulti').style.display = 'none';
 }
 
 function selectGame(context) {

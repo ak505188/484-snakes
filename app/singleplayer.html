@@ -4,12 +4,15 @@
     <meta charset=utf-8>
     <meta name="viewport" content="width=device-width">
     <title>Snake Online!</title>
+    <link rel="stylesheet" type="text/css" href="/styles/global.css"/>
+    <link rel="stylesheet" type="text/css" href="/styles/game.css"/>
     <script type="text/javascript" src="/util/utils.js" defer></script>
     <script type="text/javascript" src="/util/inheritance.js" defer></script>
     <script type="text/javascript" src="/util/node.js" defer></script>
     <script type="text/javascript" src="/util/queue.js" defer></script>
     <script type="text/javascript" src="/game/generator/stage_generator.js" defer></script>
     <script type="text/javascript" src="/game/generator/random_generator.js" defer></script>
+    <script type="text/javascript" src="/game/generator/upload_generator.js" defer></script>
     <script type="text/javascript" src="/game/game_grid.js" defer></script>
     <script type="text/javascript" src="/game/game_controller.js" defer></script>
     <script type="text/javascript" src="/game/game_object/game_object.js" defer></script>
@@ -33,9 +36,9 @@
     </script>
   </head>
   <body>
-    <h1>484 Snakes!</h1>
-    <p>Game page!</p>
+    <h1 class="title-text">Single Player</h1>
     <div id="status"></div>
     <canvas id="game"></canvas>
+    <button id="back">Back to Main Menu</button>
   </body>
 </html>

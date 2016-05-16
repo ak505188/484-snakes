@@ -1,24 +1,19 @@
 function Initializer() {
-    //grabs the stage config from the player that initiated the game
+    //grabs the stage config from the local storage of the player that initiated the game
 
     //private fields
-    var mode;
+    var mode = localStorage.mode;
     var initialConfig;
-
-    //init
-    //todo: uncomment all this stuff below once the UI is actually built...
-    /*(function() {
-        var localStorage = JSON.parse(localStorage.currentLevel);    //todo: assuming mode is determined by radios
-
-    })();*/
 
     //public
     this.createInitialConfig = function() {
-        //if (mode === 'Random') {
+        if (mode === 'Default') {
+            initialConfig = getDefaultConfig();
+        } else if (mode === 'Random') {
             initialConfig = getRandomConfig();
-        //} else {
-        //    initialConfig = getUploadConfig();
-        //}
+        } else {
+            initialConfig = getCustomConfig();
+        }
     };
 
     this.getInitialConfig = function() {
@@ -26,19 +21,28 @@ function Initializer() {
     };
 
     //private helpers
-    function getRandomConfig() {
+    function getDefaultConfig() {
         return {
-            difficulty: /*document.getElementById('difficulty')*/0,
-            speed: /*document.getElementById('speed')*/6,
-            width: /*document.getElementById('width')*/20,
-            height: /*document.getElementById('height')*/20
+            difficulty: 0,
+            speed: 6,
+            width: 20,
+            height: 20
         };
     }
 
-    function getUploadConfig() {
-        //todo: check somewhere that file is json format
-        var file = document.getElementById('input').files[0];
-        var json = JSON.parse(file.content);
+    function getRandomConfig() {
+        var randomConfig = JSON.parse(localStorage.random);
+        return {
+            difficulty: randomConfig.difficulty,
+            speed: randomConfig.speed,
+            width: randomConfig.size,
+            height: randomConfig.size
+        };
+    }
+
+    function getCustomConfig() {
+        //todo: find out why this is double encoded
+        var json = JSON.parse(JSON.parse(localStorage.currentLevel));
         return {
             stageData: json
         };

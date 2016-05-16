@@ -6,8 +6,9 @@
 // and reappear on every change. (This includes things like other
 // people refreshing the page anywhere on the website)
 var currentGames = [];
+var copiedHTML = [];
 var defaultLevel = JSON.stringify({
-  speed: 0,
+  speed: 5,
   grid: {},
   width: 20,
   height: 20
@@ -63,33 +64,36 @@ function roomSettingColumn(settings) {
 }
 
 function clickDefault() {
-  document.getElementById('savedGamesSingle').style.display = 'none';
-  document.getElementById('savedGamesMulti').style.display = 'none';
+  hideSavedSelect();
+  clearCopiedHTML();
   localStorage.currentLevel = JSON.stringify(defaultLevel);
 }
 
-function clickRandom() {
-  document.getElementById('savedGamesSingle').style.display = 'none';
-  document.getElementById('savedGamesMulti').style.display = 'none';
-  localStorage.currentLevel = JSON.stringify({
-    speed: Math.floor((Math.random() * 10) + 1),
-    width: Math.floor((Math.random() * 10) + 1),
-    height: Math.floor((Math.random() * 10) + 1)
-  });
+function clickRandom(id) {
+  hideSavedSelect();
+  clearCopiedHTML();
+  copyInnerHTML('randomParamsSrc', id);
+  document.getElementById(id).style.display = 'block';
   localStorage.mode = "Random";
 }
 
 function clickUpload() {
-  document.getElementById('savedGamesSingle').style.display = 'none';
-  document.getElementById('savedGamesMulti').style.display = 'none';
+  hideSavedSelect();
+  clearCopiedHTML();
   localStorage.mode = "Custom";
   // Need to actually handle upload here
   alert('Upload not supported yet!');
 }
 
 function clickSaved(id) {
+  clearCopiedHTML();
   document.getElementById(id).style.display = 'block';
   localStorage.mode = "Custom";
+}
+
+function hideSavedSelect() {
+  document.getElementById('savedGamesSingle').style.display = 'none';
+  document.getElementById('savedGamesMulti').style.display = 'none';
 }
 
 function generateSelectForSaved() {
@@ -113,6 +117,20 @@ function generateSelectForSaved() {
   document.getElementById('savedGamesMulti').style.display = 'none';
 }
 
+function copyInnerHTML(fromId, toId) {
+  var htmlSrc = document.getElementById(fromId);
+  var htmlDest = document.getElementById(toId);
+  htmlDest.innerHTML = htmlSrc.innerHTML;
+  copiedHTML.push(htmlDest);
+}
+
+function clearCopiedHTML() {
+  for (var i = 0; i < copiedHTML.length; i++) {
+    copiedHTML[i].innerHTML = '';
+  }
+  copiedHTML = [];
+}
+
 function selectGame(context) {
    if(context.value === '--') {
      localStorage.currentLevel = defaultLevel;
@@ -123,7 +141,9 @@ function selectGame(context) {
    }
 }
 
+//todo: if either of these buttons are clicked, must handle clicking Random or Saved if they are already checked!
 function toggleSingleplayer(){
+  clearCopiedHTML();
   var eleDiv = document.getElementById('singleplayer');
   document.getElementById('multiplayer').style.display = 'none';
 
@@ -137,6 +157,7 @@ function toggleSingleplayer(){
 }
 
 function toggleMultiplayer(){
+  clearCopiedHTML();
   document.getElementById('singleplayer').style.display = 'none';
   var eleDiv2 = document.getElementById('multiplayer');
 
@@ -146,6 +167,36 @@ function toggleMultiplayer(){
   else {
     eleDiv2.style.display = "block";
   }
+}
+
+function handleGameStart() {
+  if (localStorage.mode === 'Random') {
+    storeRandomConfig();
+  }
+  window.location.href='/single';
+}
+
+function storeRandomConfig() {
+  var randomConfig = {};
+  var speedInput = document.getElementById('randomSpeed');
+  var difficultyInput = document.getElementById('randomDifficulty');
+  var sizeInput = document.getElementById('randomSize');
+  if (speedInput.value) {
+    randomConfig.speed = parseInt(speedInput.value);
+  } else {
+    randomConfig.speed = 6; //todo: make work with default value
+  }
+  if (difficultyInput.value) {
+    randomConfig.difficulty = parseInt(difficultyInput.value);
+  } else {
+    randomConfig.difficulty = 0;
+  }
+  if (sizeInput.value) {
+    randomConfig.size = parseInt(sizeInput.value);
+  } else {
+    randomConfig.size = 20;
+  }
+  localStorage.random = JSON.stringify(randomConfig);
 }
 
 window.onload = function() {

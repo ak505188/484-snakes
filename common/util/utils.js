@@ -10,6 +10,7 @@ var Utils = {
     controller: null,
 
     //global constants
+    homeLocation: 'http://localhost:3000',
     spawnTime: 0,
     spawnFlashTime: 4,
     noColor: 'none',
@@ -62,6 +63,14 @@ var Utils = {
             "2": {x: 1/3, y: 2/3, direction: Utils.keyLeft},
             "3": {x: 1/3, y: 1/3, direction: Utils.keyUp}
         };
+
+        //back button -- front end utils only!
+        var backButton = document.getElementById('back');
+        if (backButton) {
+            backButton.addEventListener('click', function() {
+                location.href = Utils.homeLocation;
+            }, false);
+        }
     },
 
 

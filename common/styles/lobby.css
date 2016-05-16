@@ -9,6 +9,7 @@ button {
 
 .text {
 	text-align:center;
+	font-family: sans-serif;
 }
 
 .multiplayer {
@@ -38,7 +39,7 @@ button {
 
 th {
 	border: 1px solid #BEC6C3;
-	background-color: #E74A37;
+	background-color: #d00d2d;
 	color: white;
 	padding: .5em;
 }

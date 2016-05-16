@@ -1,7 +1,7 @@
 function ExportGenerator(_gridMap) {
 
     var gridMap = _gridMap;
-    var speed = 0;
+    var speed = 6;
     var width = Utils.editorGrid.getWidth();
     var height = Utils.editorGrid.getHeight();
 

@@ -10,7 +10,7 @@ var Utils = {
     controller: null,
 
     //global constants
-    homeLocation: 'http://localhost:3000',
+    homeLocation: window.location.origin,
     spawnTime: 0,
     spawnFlashTime: 4,
     noColor: 'none',
@@ -78,14 +78,14 @@ var Utils = {
         return {
             x: v1.x + v2.x,
             y: v1.y + v2.y
-        }
+        };
     },
 
     subtractVectors: function(v1, v2) {
         return {
             x: v1.x - v2.x,
             y: v1.y - v2.y
-        }
+        };
     },
 
     //clones all properties other than position

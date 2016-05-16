@@ -8,14 +8,8 @@ function Initializer() {
     //init
     //todo: uncomment all this stuff below once the UI is actually built...
     /*(function() {
-        var modeRadios = document.getElementsByName('mode');    //todo: assuming mode is determined by radios
-        for (var i = 0; i < modeRadios.length; i++) {
-            var radio = modeRadios[i];
-            if (radio.checked) {
-                mode = radio.value;
-                break;
-            }
-        }
+        var localStorage = JSON.parse(localStorage.currentLevel);    //todo: assuming mode is determined by radios
+
     })();*/
 
     //public

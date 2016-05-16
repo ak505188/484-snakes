@@ -6,12 +6,12 @@
 // and reappear on every change. (This includes things like other
 // people refreshing the page anywhere on the website)
 var currentGames = [];
-var defaultLevel = {
+var defaultLevel = JSON.stringify({
   speed: 0,
   grid: {},
   width: 20,
   height: 20
-};
+});
 
 function handleNewConnection(data) {
   var clients = data.total_client_count;

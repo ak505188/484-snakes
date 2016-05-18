@@ -65,6 +65,30 @@ var Room = function(_settings) {
     return this.players;
   };
 
+  // This function removes a player from room
+  // if they haven't reconnected after the set timeout
+  this.removePlayer = function(address, _socketId) {
+    // 2nd argument is timeout value aka how long it takes before
+    // checking if player reconnected
+    // Arguments after that are passed to function call
+    // This syntax is really weird
+    setTimeout(destroyPlayer, 3000, address, _socketId, this);
+  };
+
+  function destroyPlayer(address, oldSocketId, context) {
+    var player = context.getPlayer(address);
+
+    // If id is the same the player hasn't reconnected
+    // If it has changed the player has reconnected
+    if (player.socketId === oldSocketId) {
+      // Problem with below is that undefined still counts towards length
+      // context.players[address] = undefined;
+
+      // delete is supposed to be slow but I don't think the performance hit here matters
+      delete context.players[address];
+    }
+  }
+
   return this;
 };
 
@@ -77,12 +101,17 @@ var Player = function(_address, _name, _settings) {
   }
 
   this.address = _address;
+  this.socketId = null;
   this.name = _name ? _name : {};
   this.settings = _settings ? _settings : {};
   this.action = null;
 
   this.setAction = function(_action) {
     this.action = _action;
+  };
+
+  this.setSocketId = function(_socketId) {
+    this.socketId = _socketId;
   };
 
   return this;

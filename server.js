@@ -1,5 +1,7 @@
 var lib = require('./common/lib.js');
 
+var socket_rooms = {};
+
 function socketServer(io, rooms) {
   io.on('connection', function (socket) {
     // IP & port of client
@@ -10,8 +12,13 @@ function socketServer(io, rooms) {
     };
     // var room = lib.getRoomFromUri(lib.getUriFromSocket(socket));
 
+
     // Do stuff on disconnect
     socket.on('disconnect', function() {
+      if (socket_rooms[socket.id] !== undefined) {
+	rooms.getRoom(socket_rooms[socket.id]).removePlayer(client.remoteAddress, socket.id);
+	socket_rooms[socket.id] = undefined;
+      }
       io.emit('new connection', { total_client_count: io.engine.clientsCount });
       // TODO: Emit new client count to all rooms
     });
@@ -21,8 +28,10 @@ function socketServer(io, rooms) {
       if (rooms.roomExists(room)) {
 	// add player to room
 	// TODO: remove player on disconnect
+	socket_rooms[socket.id] = room;
 	socket.join(room);
 	rooms.getRoom(room).addNewPlayer(client.remoteAddress);
+	rooms.getRoom(room).getPlayer(client.remoteAddress).setSocketId(socket.id);
 	io.to(room).emit('status', { client_count: io.sockets.adapter.rooms[room].length });
       }
     });

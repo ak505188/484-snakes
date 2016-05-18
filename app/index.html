@@ -10,7 +10,6 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = io.connect();
-      console.dir(socket.__proto__.disconnect);
       socket.on('new connection', function(data) {
           handleNewConnection(data);
       });

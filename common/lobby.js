@@ -69,6 +69,7 @@ function clickDefault() {
   hideSavedSelect();
   clearCopiedHTML();
   localStorage.currentLevel = JSON.stringify(defaultLevel);
+  localStorage.mode = "Default";
 }
 
 function clickRandom(id) {
